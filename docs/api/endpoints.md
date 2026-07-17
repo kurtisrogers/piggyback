@@ -33,6 +33,9 @@
 | GET | `/api/library/` | Yes | List library entries |
 | GET | `/api/library/?type=sent` | Yes | Filter by type |
 
+| GET | `/api/me/details/` | Yes | Resolved system user details |
+| POST | `/api/me/sync_recipient/` | Yes | Sync system user to address book |
+
 ## Recipients
 
 | Method | Endpoint | Auth | Description |

@@ -3,6 +3,8 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, ListView, TemplateView, View
 
+from piggyback.adapters import get_user_details, sync_user_recipient
+from piggyback.conf import get_setting
 from piggyback.models import (
     Card,
     CardLibraryEntry,
@@ -120,7 +122,14 @@ class RecipientsView(ListView):
     context_object_name = "recipients"
 
     def get_queryset(self):
+        if get_setting("AUTO_SYNC_USER_RECIPIENT"):
+            sync_user_recipient(self.request.user)
         return Recipient.objects.filter(owner=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["system_user_details"] = get_user_details(self.request.user)
+        return ctx
 
 
 class CartView(View):

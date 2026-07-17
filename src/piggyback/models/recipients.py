@@ -29,9 +29,20 @@ class Recipient(TimeStampedModel):
     birthday = models.DateField(null=True, blank=True)
     anniversary = models.DateField(null=True, blank=True)
     notes = models.TextField(blank=True)
+    is_system_user = models.BooleanField(
+        default=False,
+        help_text="True when this entry is synced from the owner's system user profile.",
+    )
 
     class Meta:
         ordering = ["first_name", "last_name"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["owner"],
+                condition=models.Q(is_system_user=True),
+                name="piggyback_unique_system_user_recipient",
+            ),
+        ]
 
     def __str__(self):
         return self.full_name

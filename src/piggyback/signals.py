@@ -1,8 +1,17 @@
+from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from piggyback.adapters import sync_user_recipient
 from piggyback.conf import get_setting
 from piggyback.models import Card, CardLibraryEntry, CardStatus
+
+
+@receiver(user_logged_in)
+def sync_system_user_on_login(sender, request, user, **kwargs):
+    """Keep the address book in sync with the host app's user profile."""
+    if get_setting("AUTO_SYNC_USER_RECIPIENT") and get_setting("USE_SYSTEM_USER_DETAILS"):
+        sync_user_recipient(user)
 
 
 @receiver(post_save, sender=Card)

@@ -6,6 +6,7 @@ from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.mail import send_mail
 
+from piggyback.adapters import get_user_details, get_user_display_name
 from piggyback.models import Reminder
 
 
@@ -23,17 +24,20 @@ def upcoming_reminders(for_date: date | None = None) -> list[Reminder]:
 
 def send_reminder_email(reminder: Reminder) -> bool:
     user = reminder.user
-    if not user.email:
+    details = get_user_details(user)
+    email = details.email or getattr(user, "email", "")
+    if not email:
         return False
 
+    display_name = get_user_display_name(user)
     subject = f"Reminder: {reminder.title} is coming up!"
     body = (
-        f"Hi {user.get_full_name() or user.username},\n\n"
+        f"Hi {display_name},\n\n"
         f"This is a friendly reminder that {reminder.title} "
         f"is on {reminder.event_date.strftime('%d %B')}.\n\n"
         f"Send a card now: {getattr(settings, 'PIGGYBACK_PUBLIC_URL', '/')}/catalog/\n"
     )
-    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [user.email])
+    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [email])
     reminder.last_sent_year = date.today().year
     reminder.save(update_fields=["last_sent_year", "updated_at"])
     return True

@@ -11,6 +11,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils import timezone
 
+from piggyback.adapters import get_user_display_name
 from piggyback.conf import get_setting
 from piggyback.models import Delivery, DeliveryMethod, DeliveryStatus
 
@@ -19,8 +20,7 @@ logger = logging.getLogger(__name__)
 
 class DeliveryBackend(ABC):
     @abstractmethod
-    def send(self, delivery: Delivery) -> bool:
-        ...
+    def send(self, delivery: Delivery) -> bool: ...
 
 
 class EmailDeliveryBackend(DeliveryBackend):
@@ -43,7 +43,7 @@ class EmailDeliveryBackend(DeliveryBackend):
             "view_url": view_url,
             "inside_message": item.card.inside_message,
         }
-        sender_name = item.order.user.get_full_name() or item.order.user.username
+        sender_name = get_user_display_name(item.order.user)
         subject = f"You've received a card from {sender_name}!"
         text_body = render_to_string("piggyback/email/ecard.txt", context)
         html_body = render_to_string("piggyback/email/ecard.html", context)

@@ -5,12 +5,27 @@
 {% block content %}
 <div class="pb-container pb-page-header">
   <h1>Address Book</h1>
-  <p>Manage recipients for your cards</p>
+  <p>Manage recipients for your cards. Your account details are synced automatically.</p>
 </div>
 
 <div class="pb-container">
+  {% if system_user_details.full_name or system_user_details.email %}
+  <div class="pb-recipient-card" style="border-color: var(--pb-primary); margin-bottom: 24px;">
+    <div class="pb-recipient-card__avatar">Me</div>
+    <div class="pb-recipient-card__info">
+      <h3>{{ system_user_details.full_name|default:"Your profile" }}</h3>
+      <p>
+        {% if system_user_details.email %}{{ system_user_details.email }}{% endif %}
+        {% if system_user_details.city %} · {{ system_user_details.city }}{% endif %}
+      </p>
+      <span class="pb-badge">Synced from your account</span>
+    </div>
+  </div>
+  {% endif %}
+
   <div class="pb-recipient-list">
     {% for recipient in recipients %}
+      {% if not recipient.is_system_user %}
       <div class="pb-recipient-card">
         <div class="pb-recipient-card__avatar">{{ recipient.first_name|slice:":1" }}</div>
         <div class="pb-recipient-card__info">
@@ -19,6 +34,7 @@
           {% if recipient.birthday %}<span class="pb-badge">🎂 {{ recipient.birthday|date:"j M" }}</span>{% endif %}
         </div>
       </div>
+      {% endif %}
     {% empty %}
       <div class="pb-empty-state">
         <h2>No recipients yet</h2>

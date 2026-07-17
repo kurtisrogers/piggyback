@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
+from piggyback.adapters import get_user_details, sync_user_recipient
 from piggyback.api.serializers import (
     AddToCartSerializer,
     CardLibraryEntrySerializer,
@@ -17,7 +18,9 @@ from piggyback.api.serializers import (
     OrderSerializer,
     RecipientSerializer,
     ReminderSerializer,
+    UserDetailsSerializer,
 )
+from piggyback.conf import get_setting
 from piggyback.models import (
     Card,
     CardLibraryEntry,
@@ -129,7 +132,43 @@ class RecipientViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
+        if get_setting("AUTO_SYNC_USER_RECIPIENT"):
+            sync_user_recipient(self.request.user)
         return Recipient.objects.filter(owner=self.request.user)
+
+    def perform_destroy(self, instance):
+        if instance.is_system_user:
+            from rest_framework.exceptions import PermissionDenied
+
+            raise PermissionDenied("The synced system user entry cannot be deleted.")
+        instance.delete()
+
+
+class MeViewSet(viewsets.ViewSet):
+    """Current user's system profile details from the host Django app."""
+
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=["get"])
+    def details(self, request):
+        details = get_user_details(request.user)
+        payload = UserDetailsSerializer(
+            {
+                **details.as_recipient_defaults(),
+                "full_name": details.full_name,
+            }
+        ).data
+        return Response(payload)
+
+    @action(detail=False, methods=["post"])
+    def sync_recipient(self, request):
+        recipient = sync_user_recipient(request.user)
+        if recipient is None:
+            return Response(
+                {"detail": "System user sync is disabled."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(RecipientSerializer(recipient).data)
 
 
 class GiftAddonViewSet(viewsets.ReadOnlyModelViewSet):

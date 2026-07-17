@@ -162,7 +162,9 @@ class RecipientSerializer(serializers.ModelSerializer):
             "birthday",
             "anniversary",
             "notes",
+            "is_system_user",
         ]
+        read_only_fields = ["is_system_user"]
 
     def create(self, validated_data):
         validated_data["owner"] = self.context["request"].user
@@ -266,3 +268,19 @@ class AddToCartSerializer(serializers.Serializer):
     gift_addon_id = serializers.IntegerField(required=False, allow_null=True)
     gift_wrap = serializers.BooleanField(default=False)
     scheduled_for = serializers.DateTimeField(required=False, allow_null=True)
+
+
+class UserDetailsSerializer(serializers.Serializer):
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    full_name = serializers.CharField()
+    email = serializers.EmailField(allow_blank=True)
+    phone = serializers.CharField(allow_blank=True)
+    address_line_1 = serializers.CharField(allow_blank=True)
+    address_line_2 = serializers.CharField(allow_blank=True)
+    city = serializers.CharField(allow_blank=True)
+    county = serializers.CharField(allow_blank=True)
+    postcode = serializers.CharField(allow_blank=True)
+    country = serializers.CharField()
+    birthday = serializers.DateField(allow_null=True)
+    anniversary = serializers.DateField(allow_null=True)

@@ -11,7 +11,11 @@ User = get_user_model()
 @pytest.fixture
 def user(db):
     return User.objects.create_user(
-        username="alice", email="alice@example.com", password="pass12345"
+        username="alice",
+        email="alice@example.com",
+        password="pass12345",
+        first_name="Alice",
+        last_name="Anderson",
     )
 
 
@@ -127,7 +131,8 @@ class TestRecipients:
             {"first_name": "Jane", "last_name": "Doe", "email": "jane@example.com"},
         )
         assert response.status_code == 201
-        assert Recipient.objects.filter(owner=user).count() == 1
+        # Includes auto-synced system user entry when enabled
+        assert Recipient.objects.filter(owner=user, is_system_user=False).count() == 1
 
 
 @pytest.mark.django_db
@@ -137,3 +142,70 @@ class TestLibrary:
 
         entries = CardLibraryEntry.objects.filter(user=card.owner)
         assert entries.exists()
+
+
+@pytest.mark.django_db
+class TestSystemUserDetails:
+    def test_get_user_details_from_user_model(self, user):
+        from piggyback.adapters import get_user_details
+
+        details = get_user_details(user)
+        assert details.email == "alice@example.com"
+        assert details.first_name == "Alice"
+        assert details.last_name == "Anderson"
+
+    def test_get_user_details_from_profile(self, user):
+        from example.accounts.models import UserProfile
+        from piggyback.adapters import get_user_details
+
+        UserProfile.objects.create(
+            user=user,
+            phone_number="07700900123",
+            line1="1 High Street",
+            city="London",
+            postcode="SW1A 1AA",
+        )
+        details = get_user_details(user)
+        assert details.phone == "07700900123"
+        assert details.address_line_1 == "1 High Street"
+        assert details.city == "London"
+        assert details.postcode == "SW1A 1AA"
+
+    def test_sync_user_recipient(self, user):
+        from example.accounts.models import UserProfile
+        from piggyback.adapters import sync_user_recipient
+
+        UserProfile.objects.create(
+            user=user,
+            line1="1 High Street",
+            city="London",
+            postcode="SW1A 1AA",
+        )
+        recipient = sync_user_recipient(user)
+        assert recipient is not None
+        assert recipient.is_system_user is True
+        assert recipient.address_line_1 == "1 High Street"
+
+        user.first_name = "Alicia"
+        user.save()
+        recipient = sync_user_recipient(user)
+        assert recipient.first_name == "Alicia"
+
+    def test_me_details_api(self, api_client, user):
+        response = api_client.get("/api/me/details/")
+        assert response.status_code == 200
+        assert response.data["email"] == "alice@example.com"
+        assert response.data["full_name"] == "Alice Anderson"
+
+    def test_sync_recipient_api(self, api_client, user):
+        response = api_client.post("/api/me/sync_recipient/")
+        assert response.status_code == 200
+        assert response.data["is_system_user"] is True
+
+    def test_cannot_delete_system_recipient(self, api_client, user):
+        from piggyback.adapters import sync_user_recipient
+
+        recipient = sync_user_recipient(user)
+        response = api_client.delete(f"/api/recipients/{recipient.id}/")
+        assert response.status_code == 403
+        assert Recipient.objects.filter(id=recipient.id).exists()

@@ -27,3 +27,15 @@ REMINDER_DAYS_BEFORE = [7, 3, 1]
 
 # Editor
 EDITOR_CANVAS_LIBRARY = "fabric"
+
+# System user integration — read details from the host project's User/profile
+USE_SYSTEM_USER_DETAILS = True
+AUTO_SYNC_USER_RECIPIENT = True
+USER_DETAILS_ADAPTER = "piggyback.adapters.user_details.DefaultUserDetailsAdapter"
+USER_PROFILE_RELATION = None  # e.g. "profile" for user.profile
+USER_FIELD_MAP = {
+    "email": "email",
+    "first_name": "first_name",
+    "last_name": "last_name",
+}
+PROFILE_FIELD_MAP = {}

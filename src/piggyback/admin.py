@@ -67,8 +67,8 @@ class CardLibraryEntryAdmin(admin.ModelAdmin):
 
 @admin.register(Recipient)
 class RecipientAdmin(admin.ModelAdmin):
-    list_display = ["full_name", "owner", "email", "city", "birthday"]
-    list_filter = ["country"]
+    list_display = ["full_name", "owner", "email", "city", "birthday", "is_system_user"]
+    list_filter = ["country", "is_system_user"]
     search_fields = ["first_name", "last_name", "email"]
 
 

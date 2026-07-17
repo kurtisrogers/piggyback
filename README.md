@@ -96,7 +96,7 @@ PIGGYBACK_POSTED_CARD_PRICE = 399
 PIGGYBACK_REMINDER_DAYS_BEFORE = [7, 3, 1]
 ```
 
-See the [configuration docs](https://kurtisrogers.github.io/piggyback/docs/getting-started/configuration/) for all options.
+Override in your host project's `settings.py` — see [System User Details](getting-started/system-user-details.md):
 
 ## Project Structure
 

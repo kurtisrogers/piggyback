@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_filters",
+    "example.accounts",
     "piggyback",
 ]
 
@@ -96,3 +97,16 @@ LOGIN_URL = "/admin/login/"
 LOGIN_REDIRECT_URL = "/"
 
 PIGGYBACK_PUBLIC_URL = "http://localhost:8000"
+
+# Piggyback reads sender/recipient details from User + profile
+PIGGYBACK_USER_PROFILE_RELATION = "profile"
+PIGGYBACK_PROFILE_FIELD_MAP = {
+    "phone": "phone_number",
+    "address_line_1": "line1",
+    "address_line_2": "line2",
+    "city": "city",
+    "county": "county",
+    "postcode": "postcode",
+    "country": "country",
+    "birthday": "birthday",
+}

@@ -32,6 +32,7 @@ nav:
       - Installation: getting-started/installation.md
       - Quick Start: getting-started/quickstart.md
       - Configuration: getting-started/configuration.md
+      - System User Details: getting-started/system-user-details.md
   - Features:
       - Card Designer: features/card-designer.md
       - Card Library: features/card-library.md

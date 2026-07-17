@@ -18,6 +18,13 @@ All Piggyback settings use the `PIGGYBACK_` prefix in Django settings.
 | `PIGGYBACK_REMINDER_DAYS_BEFORE` | `[7, 3, 1]` | Reminder schedule |
 | `PIGGYBACK_ECARD_DELIVERY_BACKEND` | Email backend path | E-card delivery class |
 | `PIGGYBACK_POSTAL_DELIVERY_BACKEND` | Postal backend path | Postal fulfilment class |
+| `PIGGYBACK_USE_SYSTEM_USER_DETAILS` | `True` | Read user details from host User/profile |
+| `PIGGYBACK_AUTO_SYNC_USER_RECIPIENT` | `True` | Sync address-book entry from system user |
+| `PIGGYBACK_USER_PROFILE_RELATION` | `None` | Profile relation on User, e.g. `"profile"` |
+| `PIGGYBACK_USER_FIELD_MAP` | see defaults | Map User fields to Piggyback details |
+| `PIGGYBACK_PROFILE_FIELD_MAP` | `{}` | Map profile fields to Piggyback details |
+
+See [System User Details](system-user-details.md) for full integration guide.
 
 ## Custom delivery backends
 
