@@ -32,6 +32,7 @@ nav:
   - Getting Started:
       - Installation: getting-started/installation.md
       - Quick Start: getting-started/quickstart.md
+      - Docker: getting-started/docker.md
       - Configuration: getting-started/configuration.md
       - System User Details: getting-started/system-user-details.md
   - Features:

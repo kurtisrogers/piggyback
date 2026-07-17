@@ -1,14 +1,19 @@
 """Django settings for Piggyback example project."""
 
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-piggyback-demo-only-change-in-production"
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY", "django-insecure-piggyback-demo-only-change-in-production"
+)
 
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "true").lower() in {"1", "true", "yes"}
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    host.strip() for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(",") if host.strip()
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -55,9 +60,21 @@ WSGI_APPLICATION = "example.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": os.environ.get("DATABASE_PATH", str(BASE_DIR / "db.sqlite3")),
     }
 }
+
+if os.environ.get("POSTGRES_HOST"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("POSTGRES_DB", "piggyback"),
+            "USER": os.environ.get("POSTGRES_USER", "piggyback"),
+            "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "piggyback"),
+            "HOST": os.environ["POSTGRES_HOST"],
+            "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -96,7 +113,7 @@ REST_FRAMEWORK = {
 LOGIN_URL = "/admin/login/"
 LOGIN_REDIRECT_URL = "/"
 
-PIGGYBACK_PUBLIC_URL = "http://localhost:8000"
+PIGGYBACK_PUBLIC_URL = os.environ.get("PIGGYBACK_PUBLIC_URL", "http://localhost:8000")
 
 # Piggyback reads sender/recipient details from User + profile
 PIGGYBACK_USER_PROFILE_RELATION = "profile"

@@ -29,7 +29,15 @@ Piggyback is a Moonpig-style Django plugin that lets your users design personali
 | **REST API** | Full DRF API for headless/mobile integrations |
 | **Admin** | Django admin for all models |
 
-## Quick Start
+## Docker
+
+```bash
+docker compose up --build
+```
+
+Open http://localhost:8000 — demo login `demo` / `demo12345`. See [Docker docs](https://kurtisrogers.github.io/piggyback/docs/getting-started/docker/).
+
+## Quick install
 
 ```bash
 pip install django-piggyback

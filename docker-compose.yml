@@ -1,0 +1,80 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_DEBUG: "true"
+      DJANGO_SECRET_KEY: docker-dev-secret-change-me
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,web
+      PIGGYBACK_PUBLIC_URL: http://localhost:8000
+      DATABASE_PATH: /app/data/db.sqlite3
+      LOAD_SAMPLE_DATA: "true"
+      CREATE_DEMO_USER: "true"
+      DEMO_USERNAME: demo
+      DEMO_PASSWORD: demo12345
+      DEMO_EMAIL: demo@piggyback.example
+    volumes:
+      - piggyback_data:/app/data
+      - piggyback_media:/app/media
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  web-postgres:
+    profiles: ["postgres"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_DEBUG: "true"
+      DJANGO_SECRET_KEY: docker-dev-secret-change-me
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,web-postgres
+      PIGGYBACK_PUBLIC_URL: http://localhost:8000
+      POSTGRES_HOST: db
+      POSTGRES_DB: piggyback
+      POSTGRES_USER: piggyback
+      POSTGRES_PASSWORD: piggyback
+      LOAD_SAMPLE_DATA: "true"
+      CREATE_DEMO_USER: "true"
+      DEMO_USERNAME: demo
+      DEMO_PASSWORD: demo12345
+      DEMO_EMAIL: demo@piggyback.example
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - piggyback_media:/app/media
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  db:
+    profiles: ["postgres"]
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: piggyback
+      POSTGRES_USER: piggyback
+      POSTGRES_PASSWORD: piggyback
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U piggyback -d piggyback"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  piggyback_data:
+  piggyback_media:
+  postgres_data:
