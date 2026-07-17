@@ -124,10 +124,17 @@ tests/                  # pytest suite
 
 ```bash
 pip install -e ".[dev]"
-pytest
-ruff check src/ tests/
+pre-commit install
+playwright install chromium
+pytest                              # unit + BDD (22 tests)
+pre-commit run --all-files
 mkdocs serve -f docs/mkdocs.yml
 ```
+
+- **Fixtures:** `python manage.py load_sample_data --fixture`
+- **Unit tests:** `pytest tests/ --ignore=tests/bdd`
+- **BDD E2E:** `pytest tests/bdd` (Playwright + Gherkin)
+- **Branch protection:** see `docs/development/branch-protection.md` (requires repo admin)
 
 ## License
 

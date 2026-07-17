@@ -63,7 +63,7 @@ include = ["src/piggyback", "README.md", "LICENSE"]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "example.settings"
-pythonpath = ["src", "example"]
+pythonpath = ["src", "."]
 testpaths = ["tests"]
 bdd_features_base_dir = "tests/bdd/features"
 markers = [

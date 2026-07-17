@@ -45,13 +45,9 @@ jobs:
           pip install "Django>=${{ matrix.django-version }},<6"
 
       - name: Run migrations
-        env:
-          PYTHONPATH: src:example
         run: python example/manage.py migrate --noinput
 
       - name: Run unit tests
-        env:
-          PYTHONPATH: src:example
         run: pytest tests/ --ignore=tests/bdd --cov=piggyback --cov-report=xml
 
   e2e:
@@ -71,13 +67,10 @@ jobs:
           playwright install --with-deps chromium
 
       - name: Run migrations
-        env:
-          PYTHONPATH: src:example
         run: python example/manage.py migrate --noinput
 
       - name: Run BDD Playwright tests
         env:
-          PYTHONPATH: src:example
           DJANGO_ALLOW_ASYNC_UNSAFE: "true"
         run: pytest tests/bdd -v
 
