@@ -49,6 +49,7 @@ nav:
       - Contributing: development/contributing.md
       - Branch Protection: development/branch-protection.md
       - Frontend (HTMX & Alpine): development/frontend.md
+      - Publishing to PyPI: development/publishing.md
 
 markdown_extensions:
   - admonition

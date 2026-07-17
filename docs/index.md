@@ -18,7 +18,7 @@
 ## Quick install
 
 ```bash
-pip install django-piggyback
+pip install pypiggyback
 ```
 
 ```python
