@@ -28,7 +28,7 @@ jobs:
         run: pip install mkdocs mkdocs-material
 
       - name: Build MkDocs to site/docs
-        run: mkdocs build -f docs/mkdocs.yml -d site/docs
+        run: mkdocs build -f docs/mkdocs.yml -d ../site/docs
 
       - name: Copy landing page
         run: |
