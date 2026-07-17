@@ -1,0 +1,30 @@
+{% extends "piggyback/base.html" %}
+
+{% block title %}Recipients{% endblock %}
+
+{% block content %}
+<div class="pb-container pb-page-header">
+  <h1>Address Book</h1>
+  <p>Manage recipients for your cards</p>
+</div>
+
+<div class="pb-container">
+  <div class="pb-recipient-list">
+    {% for recipient in recipients %}
+      <div class="pb-recipient-card">
+        <div class="pb-recipient-card__avatar">{{ recipient.first_name|slice:":1" }}</div>
+        <div class="pb-recipient-card__info">
+          <h3>{{ recipient.full_name }}</h3>
+          <p>{% if recipient.email %}{{ recipient.email }}{% endif %}{% if recipient.city %} · {{ recipient.city }}{% endif %}</p>
+          {% if recipient.birthday %}<span class="pb-badge">🎂 {{ recipient.birthday|date:"j M" }}</span>{% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <div class="pb-empty-state">
+        <h2>No recipients yet</h2>
+        <p>Add recipients via the <a href="/api/recipients/">REST API</a> or Django admin.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

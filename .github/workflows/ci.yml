@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "skynet/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+        django-version: ["4.2", "5.1"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pip install -e ".[dev]"
+          pip install "Django>=${{ matrix.django-version }},<6"
+
+      - name: Run migrations
+        working-directory: example
+        run: python manage.py migrate --noinput
+
+      - name: Run tests
+        run: pytest --cov=piggyback --cov-report=xml
+
+      - name: Lint
+        run: ruff check src/ tests/
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install MkDocs
+        run: pip install mkdocs mkdocs-material
+
+      - name: Build docs
+        run: mkdocs build -f docs/mkdocs.yml

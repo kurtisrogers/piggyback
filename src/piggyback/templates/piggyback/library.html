@@ -1,0 +1,47 @@
+{% extends "piggyback/base.html" %}
+
+{% block title %}My Card Library{% endblock %}
+
+{% block content %}
+<div class="pb-container pb-page-header">
+  <h1>My Card Library</h1>
+  <p>Your saved designs, drafts, and sent cards</p>
+</div>
+
+<div class="pb-container">
+  <div class="pb-tabs">
+    <a href="?" class="pb-tab {% if not filter_type %}active{% endif %}">All</a>
+    <a href="?type=draft" class="pb-tab {% if filter_type == 'draft' %}active{% endif %}">Drafts</a>
+    <a href="?type=saved" class="pb-tab {% if filter_type == 'saved' %}active{% endif %}">Saved</a>
+    <a href="?type=sent" class="pb-tab {% if filter_type == 'sent' %}active{% endif %}">Sent</a>
+  </div>
+
+  <div class="pb-library-grid">
+    {% for entry in entries %}
+      <div class="pb-library-card">
+        <div class="pb-library-card__preview">
+          {% if entry.card.preview_image %}
+            <img src="{{ entry.card.preview_image.url }}" alt="{{ entry.card.title }}">
+          {% else %}
+            <span>🎴</span>
+          {% endif %}
+        </div>
+        <div class="pb-library-card__body">
+          <h3>{{ entry.card.title }}</h3>
+          <span class="pb-badge">{{ entry.get_entry_type_display }}</span>
+          <div class="pb-library-card__actions">
+            <a href="{% url 'piggyback:editor' card_id=entry.card.id %}" class="pb-btn pb-btn--sm">Edit</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="pb-empty-state">
+        <span class="pb-empty-state__icon">📚</span>
+        <h2>Your library is empty</h2>
+        <p>Start designing a card and it will appear here automatically.</p>
+        <a href="{% url 'piggyback:catalog' %}" class="pb-btn pb-btn--primary">Browse Cards</a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

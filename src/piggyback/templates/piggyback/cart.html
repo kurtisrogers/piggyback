@@ -1,0 +1,46 @@
+{% extends "piggyback/base.html" %}
+{% load piggyback_tags %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<div class="pb-container pb-page-header">
+  <h1>Your Cart</h1>
+</div>
+
+<div class="pb-container pb-cart">
+  {% if order and order.items.exists %}
+    <div class="pb-cart__items">
+      {% for item in order.items.all %}
+        <div class="pb-cart-item">
+          <div class="pb-cart-item__card">
+            <span>🎴</span>
+            <div>
+              <h3>{{ item.card.title }}</h3>
+              <p>To: {{ item.recipient.full_name|default:"Not set" }}</p>
+              <span class="pb-badge">{{ item.get_delivery_method_display }}</span>
+            </div>
+          </div>
+          <div class="pb-cart-item__price">£{{ item.line_total_pence|pence }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <aside class="pb-cart__summary">
+      <h3>Order Summary</h3>
+      <div class="pb-cart__row"><span>Subtotal</span><span>£{{ order.subtotal_pence|pence }}</span></div>
+      <div class="pb-cart__row pb-cart__row--total"><span>Total</span><span>£{{ order.total_pence|pence }}</span></div>
+      <form method="post">
+        {% csrf_token %}
+        <input type="text" name="promo_code" placeholder="Promo code (try FIRSTCARD)" class="pb-input">
+        <button type="submit" name="action" value="checkout" class="pb-btn pb-btn--primary pb-btn--block">Checkout</button>
+      </form>
+    </aside>
+  {% else %}
+    <div class="pb-empty-state">
+      <h2>Your cart is empty</h2>
+      <a href="{% url 'piggyback:catalog' %}" class="pb-btn pb-btn--primary">Browse Cards</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

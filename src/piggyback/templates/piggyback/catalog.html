@@ -1,0 +1,53 @@
+{% extends "piggyback/base.html" %}
+
+{% block title %}Card Shop{% endblock %}
+
+{% block content %}
+<div class="pb-container pb-page-header">
+  <h1>Card Shop</h1>
+  <p>{{ page_obj.paginator.count }} designs to personalise</p>
+</div>
+
+<div class="pb-container pb-catalog-layout">
+  <aside class="pb-filters">
+    <h3>Occasions</h3>
+    <a href="{% url 'piggyback:catalog' %}" class="pb-filter {% if not selected_occasion %}active{% endif %}">All</a>
+    {% for occasion in occasions %}
+      <a href="?occasion={{ occasion.slug }}" class="pb-filter {% if selected_occasion == occasion.slug %}active{% endif %}">
+        {{ occasion.category.icon }} {{ occasion.name }}
+      </a>
+    {% endfor %}
+
+    <h3>Style</h3>
+    {% for value, label in card_styles %}
+      <a href="?style={{ value }}{% if selected_occasion %}&occasion={{ selected_occasion }}{% endif %}"
+         class="pb-filter {% if selected_style == value %}active{% endif %}">{{ label }}</a>
+    {% endfor %}
+  </aside>
+
+  <div class="pb-template-grid">
+    {% for template in templates %}
+      <a href="{% url 'piggyback:editor_template' template_slug=template.slug %}" class="pb-template-card">
+        <div class="pb-template-card__preview" style="background: linear-gradient(135deg, #fff8f0, #ffe4e8);">
+          <span class="pb-template-card__placeholder">{{ template.occasion.icon|default:"🎴" }}</span>
+          {% if template.is_premium %}<span class="pb-badge pb-badge--premium">Premium</span>{% endif %}
+        </div>
+        <div class="pb-template-card__info">
+          <h3>{{ template.name }}</h3>
+          <span class="pb-template-card__style">{{ template.get_style_display }}</span>
+        </div>
+      </a>
+    {% empty %}
+      <p class="pb-empty">No templates found. Run <code>load_sample_data</code>.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% if page_obj.has_other_pages %}
+<nav class="pb-pagination pb-container">
+  {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">&larr; Prev</a>{% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">Next &rarr;</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

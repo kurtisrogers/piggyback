@@ -1,0 +1,19 @@
+{% extends "piggyback/base.html" %}
+{% load piggyback_tags %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="pb-container pb-checkout">
+  <h1>Checkout</h1>
+  <div class="pb-checkout__summary">
+    <p>Order total: <strong>£{{ order.total_pence|pence }}</strong></p>
+    {% if order.discount_pence %}<p>Discount applied: -£{{ order.discount_pence|pence }}</p>{% endif %}
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    <p class="pb-checkout__note">Demo mode — payment is simulated. Click below to complete your order.</p>
+    <button type="submit" class="pb-btn pb-btn--primary pb-btn--lg">Pay £{{ order.total_pence|pence }}</button>
+  </form>
+</div>
+{% endblock %}

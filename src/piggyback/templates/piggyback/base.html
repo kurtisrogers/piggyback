@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Piggyback{% endblock %} — Occasion Cards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'piggyback/css/piggyback.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <header class="pb-header">
+    <div class="pb-container pb-header__inner">
+      <a href="{% url 'piggyback:home' %}" class="pb-logo">
+        <span class="pb-logo__icon">🐷</span>
+        <span class="pb-logo__text">Piggyback</span>
+      </a>
+      <nav class="pb-nav">
+        <a href="{% url 'piggyback:catalog' %}">Cards</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'piggyback:library' %}">My Library</a>
+          <a href="{% url 'piggyback:recipients' %}">Recipients</a>
+          <a href="{% url 'piggyback:reminders' %}">Reminders</a>
+          <a href="{% url 'piggyback:cart' %}" class="pb-cart-link">Cart</a>
+          <a href="{% url 'piggyback:editor_new' %}" class="pb-btn pb-btn--primary pb-btn--sm">Create Card</a>
+        {% else %}
+          <a href="/admin/login/?next={{ request.path }}" class="pb-btn pb-btn--primary pb-btn--sm">Sign In</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="pb-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="pb-footer">
+    <div class="pb-container pb-footer__grid">
+      <div>
+        <strong class="pb-logo__text">Piggyback</strong>
+        <p>Design, save &amp; send beautiful occasion cards.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="{% url 'piggyback:catalog' %}">Card Shop</a>
+        <a href="{% url 'piggyback:editor_new' %}">Card Editor</a>
+        <a href="{% url 'piggyback:library' %}">My Library</a>
+      </div>
+      <div>
+        <h4>Docs</h4>
+        <a href="https://kurtisrogers.github.io/piggyback/docs/">Documentation</a>
+        <a href="https://github.com/kurtisrogers/piggyback">GitHub</a>
+      </div>
+    </div>
+    <div class="pb-container pb-footer__copy">
+      &copy; 2026 Piggyback. MIT License.
+    </div>
+  </footer>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "piggyback/base.html" %}
+
+{% block title %}Order Confirmed{% endblock %}
+
+{% block content %}
+<div class="pb-container pb-confirmation">
+  <div class="pb-confirmation__icon">✅</div>
+  <h1>Order Confirmed!</h1>
+  <p>Your cards are on their way. Order reference: <code>{{ order.uuid }}</code></p>
+  <div class="pb-confirmation__actions">
+    <a href="{% url 'piggyback:library' %}" class="pb-btn pb-btn--primary">View Library</a>
+    <a href="{% url 'piggyback:catalog' %}" class="pb-btn pb-btn--outline">Send Another</a>
+  </div>
+</div>
+{% endblock %}

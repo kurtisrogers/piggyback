@@ -1,0 +1,9 @@
+Hi {{ recipient.first_name }},
+
+You've received a personalised card from {{ sender.get_full_name|default:sender.username }}!
+
+{% if inside_message %}{{ inside_message }}{% endif %}
+
+View your card: {{ view_url }}
+
+Sent with Piggyback
