@@ -40,7 +40,7 @@ Open http://localhost:8000 — demo login `demo` / `demo12345`. See [Docker docs
 ## Quick install
 
 ```bash
-pip install django-piggyback
+pip install pypiggybackm
 ```
 
 ```python
