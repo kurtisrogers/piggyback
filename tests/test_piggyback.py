@@ -1,29 +1,7 @@
 import pytest
-from django.contrib.auth import get_user_model
-from rest_framework.test import APIClient
 
 from piggyback.models import Card, CardTemplate, Occasion, OccasionCategory, Order, Recipient
 from piggyback.services.checkout import add_card_to_cart, complete_payment
-
-User = get_user_model()
-
-
-@pytest.fixture
-def user(db):
-    return User.objects.create_user(
-        username="alice",
-        email="alice@example.com",
-        password="pass12345",
-        first_name="Alice",
-        last_name="Anderson",
-    )
-
-
-@pytest.fixture
-def api_client(user):
-    client = APIClient()
-    client.force_authenticate(user=user)
-    return client
 
 
 @pytest.fixture

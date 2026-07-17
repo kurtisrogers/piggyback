@@ -1,19 +1,33 @@
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
-
-from piggyback.models import (
-    CardStyle,
-    CardTemplate,
-    DesignAsset,
-    GiftAddon,
-    Occasion,
-    OccasionCategory,
-)
 
 
 class Command(BaseCommand):
     help = "Load sample occasion categories, templates, and assets."
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--fixture",
+            action="store_true",
+            help="Load from src/piggyback/fixtures/sample_data.json instead of generating.",
+        )
+
     def handle(self, *args, **options):
+        if options["fixture"]:
+            self.stdout.write("Loading Piggyback fixtures...")
+            call_command("loaddata", "sample_data", app_label="piggyback")
+            self.stdout.write(self.style.SUCCESS("Fixtures loaded successfully."))
+            return
+
+        from piggyback.models import (
+            CardStyle,
+            CardTemplate,
+            DesignAsset,
+            GiftAddon,
+            Occasion,
+            OccasionCategory,
+        )
+
         self.stdout.write("Loading Piggyback sample data...")
 
         categories_data = [
@@ -112,7 +126,7 @@ class Command(BaseCommand):
             )
 
         stickers = ["🎈", "🎉", "⭐", "🌸", "🦋", "🎁"]
-        for i, emoji in enumerate(stickers):
+        for emoji in stickers:
             DesignAsset.objects.update_or_create(
                 name=f"Sticker {emoji}",
                 defaults={"asset_type": DesignAsset.AssetType.STICKER, "tags": "sticker,fun"},

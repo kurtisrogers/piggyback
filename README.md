@@ -94,9 +94,13 @@ PIGGYBACK_PUBLIC_URL = "https://cards.yoursite.com"
 PIGGYBACK_ECARD_PRICE = 299          # pence (£2.99)
 PIGGYBACK_POSTED_CARD_PRICE = 399
 PIGGYBACK_REMINDER_DAYS_BEFORE = [7, 3, 1]
+
+# Reuse existing User/profile details (no duplicate data entry)
+PIGGYBACK_USER_PROFILE_RELATION = "profile"
+PIGGYBACK_PROFILE_FIELD_MAP = {"phone": "phone_number", "address_line_1": "line1", ...}
 ```
 
-Override in your host project's `settings.py` — see [System User Details](getting-started/system-user-details.md):
+See the [configuration docs](https://kurtisrogers.github.io/piggyback/docs/getting-started/configuration/) and [system user details guide](https://kurtisrogers.github.io/piggyback/docs/getting-started/system-user-details/).
 
 ## Project Structure
 

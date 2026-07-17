@@ -1,0 +1,32 @@
+# See https://pre-commit.com for more information
+default_language_version:
+  python: python3.12
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.9
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: pytest-unit
+        name: pytest (unit, fast)
+        entry: bash -c 'PYTHONPATH=src:example pytest tests/ --ignore=tests/bdd -q'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

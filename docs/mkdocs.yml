@@ -42,9 +42,10 @@ nav:
   - API Reference:
       - Overview: api/overview.md
       - Endpoints: api/endpoints.md
-  - Development:
+      - Development:
       - Architecture: development/architecture.md
       - Contributing: development/contributing.md
+      - Branch Protection: development/branch-protection.md
 
 markdown_extensions:
   - admonition
