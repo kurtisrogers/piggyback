@@ -63,4 +63,4 @@ docker run --rm -p 8000:8000 piggyback:latest
 
 ## Development without Docker
 
-See [Quick Start](getting-started/quickstart.md).
+See [Quick Start](quickstart.md).
