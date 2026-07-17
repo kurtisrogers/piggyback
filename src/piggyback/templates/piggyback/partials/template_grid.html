@@ -1,0 +1,17 @@
+<div id="template-grid" class="pb-template-grid">
+{% for template in templates %}
+  <a href="{% url 'piggyback:editor_template' template_slug=template.slug %}" class="pb-template-card">
+    <div class="pb-template-card__preview" style="background: linear-gradient(135deg, #fff8f0, #ffe4e8);">
+      <span class="pb-template-card__placeholder">{{ template.occasion.icon|default:"🎴" }}</span>
+      {% if template.is_premium %}<span class="pb-badge pb-badge--premium">Premium</span>{% endif %}
+    </div>
+    <div class="pb-template-card__info">
+      <h3>{{ template.name }}</h3>
+      <span class="pb-template-card__style">{{ template.get_style_display }}</span>
+    </div>
+  </a>
+{% empty %}
+  <p class="pb-empty">No templates found. Run <code>load_sample_data</code>.</p>
+{% endfor %}
+</div>
+<p id="catalog-count" hx-swap-oob="innerHTML">{{ page_obj.paginator.count }} designs to personalise</p>

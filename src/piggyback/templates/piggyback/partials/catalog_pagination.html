@@ -1,0 +1,21 @@
+{% if page_obj.has_other_pages %}
+<nav class="pb-pagination pb-container" id="catalog-pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if selected_occasion %}&occasion={{ selected_occasion }}{% endif %}{% if selected_style %}&style={{ selected_style }}{% endif %}"
+       hx-get="?page={{ page_obj.previous_page_number }}{% if selected_occasion %}&occasion={{ selected_occasion }}{% endif %}{% if selected_style %}&style={{ selected_style }}{% endif %}"
+       hx-target="#template-grid"
+       hx-select="#template-grid"
+       hx-swap="outerHTML"
+       hx-push-url="true">&larr; Prev</a>
+  {% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if selected_occasion %}&occasion={{ selected_occasion }}{% endif %}{% if selected_style %}&style={{ selected_style }}{% endif %}"
+       hx-get="?page={{ page_obj.next_page_number }}{% if selected_occasion %}&occasion={{ selected_occasion }}{% endif %}{% if selected_style %}&style={{ selected_style }}{% endif %}"
+       hx-target="#template-grid"
+       hx-select="#template-grid"
+       hx-swap="outerHTML"
+       hx-push-url="true">Next &rarr;</a>
+  {% endif %}
+</nav>
+{% endif %}

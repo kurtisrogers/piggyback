@@ -1,0 +1,26 @@
+<div id="recipient-form">
+<form class="pb-form-card"
+      hx-post="{% url 'piggyback:recipient_create' %}"
+      hx-target="#recipients-panel"
+      hx-select="#recipients-panel"
+      hx-swap="outerHTML"
+      @htmx:after-request="if (event.detail.successful) $dispatch('pb-toast', { message: 'Recipient added', type: 'success' })">
+  {% csrf_token %}
+  <h3>Add recipient</h3>
+  <div class="pb-form-grid">
+    {{ form.first_name }}
+    {{ form.last_name }}
+    {{ form.email }}
+    {{ form.phone }}
+    {{ form.city }}
+    {{ form.postcode }}
+    {{ form.birthday }}
+  </div>
+  {% if form.errors %}
+    <p class="pb-form-error">Please check the form and try again.</p>
+  {% endif %}
+  <div class="pb-form-actions">
+    <button type="submit" class="pb-btn pb-btn--primary">Add recipient</button>
+  </div>
+</form>
+</div>

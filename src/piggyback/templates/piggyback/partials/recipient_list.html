@@ -1,0 +1,30 @@
+<div class="pb-recipient-list" id="recipient-list">
+{% for recipient in recipients %}
+  {% if not recipient.is_system_user %}
+  <div class="pb-recipient-card" id="recipient-{{ recipient.id }}">
+    <div class="pb-recipient-card__avatar">{{ recipient.first_name|slice:":1" }}</div>
+    <div class="pb-recipient-card__info">
+      <h3>{{ recipient.full_name }}</h3>
+      <p>{% if recipient.email %}{{ recipient.email }}{% endif %}{% if recipient.city %} · {{ recipient.city }}{% endif %}</p>
+      {% if recipient.birthday %}<span class="pb-badge">🎂 {{ recipient.birthday|date:"j M" }}</span>{% endif %}
+    </div>
+    <div class="pb-recipient-card__actions">
+      <button type="button"
+              class="pb-btn pb-btn--sm pb-btn--danger"
+              hx-delete="{% url 'piggyback:recipient_delete' pk=recipient.id %}"
+              hx-target="#recipients-panel"
+              hx-select="#recipients-panel"
+              hx-swap="outerHTML"
+              hx-confirm="Remove {{ recipient.full_name }}?">
+        Remove
+      </button>
+    </div>
+  </div>
+  {% endif %}
+{% empty %}
+  <div class="pb-empty-state" id="recipient-empty">
+    <h2>No recipients yet</h2>
+    <p>Add someone using the form above.</p>
+  </div>
+{% endfor %}
+</div>
