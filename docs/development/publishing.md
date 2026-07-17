@@ -1,6 +1,6 @@
 # Publishing to PyPI
 
-The package is published as **[pypiggybackm](https://pypi.org/project/pypiggybackm/)** on PyPI.
+The package is published as **[pypiggyback](https://pypi.org/project/pypiggyback/)** on PyPI.
 
 ## Automated publishing
 
@@ -16,9 +16,9 @@ Releases are published via GitHub Actions (`.github/workflows/publish.yml`) usin
 
 ### One-time PyPI setup
 
-1. On [pypi.org](https://pypi.org), open the **pypiggybackm** project → **Publishing** → **Add a new publisher**
+1. On [pypi.org](https://pypi.org), open the **pypiggyback** project → **Publishing** → **Add a new publisher**
 2. Configure the trusted publisher:
-   - **PyPI Project Name:** `pypiggybackm`
+   - **PyPI Project Name:** `pypiggyback`
    - **Owner:** `kurtisrogers`
    - **Repository name:** `piggyback`
    - **Workflow name:** `publish.yml`
@@ -43,5 +43,5 @@ twine check dist/*
 Install locally:
 
 ```bash
-pip install dist/pypiggybackm-*.whl
+pip install dist/pypiggyback-*.whl
 ```

@@ -18,7 +18,7 @@
 ## Quick install
 
 ```bash
-pip install pypiggybackm
+pip install pypiggyback
 ```
 
 ```python

@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pypiggybackm"
+name = "pypiggyback"
 version = "0.1.0"
 description = "Design, save, and send beautiful occasion cards — a Moonpig-style Django plugin"
 readme = "README.md"
