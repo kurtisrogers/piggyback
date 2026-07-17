@@ -1,0 +1,102 @@
+{% extends "piggyback/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="pb-hero">
+  <div class="pb-container pb-hero__inner">
+    <div class="pb-hero__content">
+      <span class="pb-badge">Django Occasion Cards</span>
+      <h1>Send joy on <em>every</em> occasion</h1>
+      <p class="pb-hero__lead">
+        Design personalised cards, save them to your library, and send by email or post —
+        birthdays, weddings, sympathy, and everything in between.
+      </p>
+      <div class="pb-hero__actions">
+        <a href="{% url 'piggyback:catalog' %}" class="pb-btn pb-btn--primary pb-btn--lg">Browse Cards</a>
+        <a href="{% url 'piggyback:editor_new' %}" class="pb-btn pb-btn--outline pb-btn--lg">Start Designing</a>
+      </div>
+    </div>
+    <div class="pb-hero__visual">
+      <div class="pb-card-stack">
+        <div class="pb-card-stack__card pb-card-stack__card--1">🎂 Happy Birthday!</div>
+        <div class="pb-card-stack__card pb-card-stack__card--2">💍 Congratulations</div>
+        <div class="pb-card-stack__card pb-card-stack__card--3">❤️ With Love</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pb-section">
+  <div class="pb-container">
+    <h2 class="pb-section__title">Shop by occasion</h2>
+    <div class="pb-category-grid">
+      {% for cat in featured_categories %}
+        <a href="{% url 'piggyback:catalog' %}?occasion={{ cat.occasions.first.slug }}" class="pb-category-card" style="--cat-color: {{ cat.color }}">
+          <span class="pb-category-card__icon">{{ cat.icon }}</span>
+          <span class="pb-category-card__name">{{ cat.name }}</span>
+        </a>
+      {% empty %}
+        <p>Run <code>python manage.py load_sample_data</code> to populate occasions.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="pb-section pb-section--muted">
+  <div class="pb-container">
+    <h2 class="pb-section__title">Popular designs</h2>
+    <div class="pb-template-grid">
+      {% for template in popular_templates %}
+        <a href="{% url 'piggyback:editor_template' template_slug=template.slug %}" class="pb-template-card">
+          <div class="pb-template-card__preview">
+            <span class="pb-template-card__placeholder">{{ template.occasion.icon|default:"🎴" }}</span>
+          </div>
+          <div class="pb-template-card__info">
+            <h3>{{ template.name }}</h3>
+            <span class="pb-template-card__style">{{ template.get_style_display }}</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="pb-section">
+  <div class="pb-container">
+    <h2 class="pb-section__title">Everything you need</h2>
+    <div class="pb-features">
+      <div class="pb-feature">
+        <div class="pb-feature__icon">✏️</div>
+        <h3>Card Designer</h3>
+        <p>Drag-and-drop editor with text, photos, stickers, and templates.</p>
+      </div>
+      <div class="pb-feature">
+        <div class="pb-feature__icon">📚</div>
+        <h3>Card Library</h3>
+        <p>Save drafts, favourites, and every card you've ever sent.</p>
+      </div>
+      <div class="pb-feature">
+        <div class="pb-feature__icon">📧</div>
+        <h3>E-Cards &amp; Post</h3>
+        <p>Send instantly by email or schedule posted delivery.</p>
+      </div>
+      <div class="pb-feature">
+        <div class="pb-feature__icon">🔔</div>
+        <h3>Reminders</h3>
+        <p>Never miss a birthday or anniversary again.</p>
+      </div>
+      <div class="pb-feature">
+        <div class="pb-feature__icon">🎁</div>
+        <h3>Gift Add-ons</h3>
+        <p>Chocolates, candles, prosecco — attach gifts to posted cards.</p>
+      </div>
+      <div class="pb-feature">
+        <div class="pb-feature__icon">🔌</div>
+        <h3>Django Plugin</h3>
+        <p>Drop into any Django project. Full REST API included.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

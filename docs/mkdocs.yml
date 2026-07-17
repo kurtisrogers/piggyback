@@ -1,0 +1,66 @@
+site_name: Piggyback
+site_url: https://kurtisrogers.github.io/piggyback/docs/
+repo_url: https://github.com/kurtisrogers/piggyback
+repo_name: kurtisrogers/piggyback
+edit_uri: edit/main/docs/
+docs_dir: .
+site_dir: ../site
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: pink
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: pink
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - search.suggest
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - Configuration: getting-started/configuration.md
+      - System User Details: getting-started/system-user-details.md
+  - Features:
+      - Card Designer: features/card-designer.md
+      - Card Library: features/card-library.md
+      - Delivery: features/delivery.md
+      - Reminders: features/reminders.md
+      - Checkout: features/checkout.md
+  - API Reference:
+      - Overview: api/overview.md
+      - Endpoints: api/endpoints.md
+  - Development:
+      - Architecture: development/architecture.md
+      - Contributing: development/contributing.md
+      - Branch Protection: development/branch-protection.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/kurtisrogers/piggyback

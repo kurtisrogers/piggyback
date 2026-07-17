@@ -1,0 +1,965 @@
+[
+{
+  "model": "piggyback.occasioncategory",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.254Z",
+    "updated_at": "2026-07-17T21:28:34.254Z",
+    "name": "Birthday",
+    "slug": "birthday",
+    "description": "Beautiful cards for birthday occasions.",
+    "icon": "🎂",
+    "color": "#FF6B6B",
+    "is_featured": true,
+    "sort_order": 1
+  }
+},
+{
+  "model": "piggyback.occasioncategory",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.256Z",
+    "updated_at": "2026-07-17T21:28:34.256Z",
+    "name": "Wedding & Anniversary",
+    "slug": "wedding",
+    "description": "Beautiful cards for wedding & anniversary occasions.",
+    "icon": "💍",
+    "color": "#C9A0DC",
+    "is_featured": true,
+    "sort_order": 2
+  }
+},
+{
+  "model": "piggyback.occasioncategory",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.259Z",
+    "updated_at": "2026-07-17T21:28:34.259Z",
+    "name": "New Baby",
+    "slug": "new-baby",
+    "description": "Beautiful cards for new baby occasions.",
+    "icon": "👶",
+    "color": "#87CEEB",
+    "is_featured": true,
+    "sort_order": 3
+  }
+},
+{
+  "model": "piggyback.occasioncategory",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.262Z",
+    "updated_at": "2026-07-17T21:28:34.262Z",
+    "name": "Sympathy",
+    "slug": "sympathy",
+    "description": "Beautiful cards for sympathy occasions.",
+    "icon": "🕊️",
+    "color": "#A8A8A8",
+    "is_featured": false,
+    "sort_order": 4
+  }
+},
+{
+  "model": "piggyback.occasioncategory",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.263Z",
+    "updated_at": "2026-07-17T21:28:34.263Z",
+    "name": "Thank You",
+    "slug": "thank-you",
+    "description": "Beautiful cards for thank you occasions.",
+    "icon": "🙏",
+    "color": "#98D8C8",
+    "is_featured": true,
+    "sort_order": 5
+  }
+},
+{
+  "model": "piggyback.occasioncategory",
+  "pk": 6,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.266Z",
+    "updated_at": "2026-07-17T21:28:34.266Z",
+    "name": "Christmas",
+    "slug": "christmas",
+    "description": "Beautiful cards for christmas occasions.",
+    "icon": "🎄",
+    "color": "#E74C3C",
+    "is_featured": true,
+    "sort_order": 6
+  }
+},
+{
+  "model": "piggyback.occasioncategory",
+  "pk": 7,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.268Z",
+    "updated_at": "2026-07-17T21:28:34.268Z",
+    "name": "Valentine's Day",
+    "slug": "valentines",
+    "description": "Beautiful cards for valentine's day occasions.",
+    "icon": "❤️",
+    "color": "#E85D75",
+    "is_featured": true,
+    "sort_order": 7
+  }
+},
+{
+  "model": "piggyback.occasioncategory",
+  "pk": 8,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.270Z",
+    "updated_at": "2026-07-17T21:28:34.270Z",
+    "name": "Graduation",
+    "slug": "graduation",
+    "description": "Beautiful cards for graduation occasions.",
+    "icon": "🎓",
+    "color": "#F39C12",
+    "is_featured": false,
+    "sort_order": 8
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.271Z",
+    "updated_at": "2026-07-17T21:28:34.271Z",
+    "name": "Birthday",
+    "slug": "birthday-general",
+    "description": "",
+    "category": 1,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.276Z",
+    "updated_at": "2026-07-17T21:28:34.276Z",
+    "name": "21st Birthday",
+    "slug": "21st-birthday",
+    "description": "",
+    "category": 1,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.279Z",
+    "updated_at": "2026-07-17T21:28:34.279Z",
+    "name": "Milestone Birthday",
+    "slug": "milestone-birthday",
+    "description": "",
+    "category": 1,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.282Z",
+    "updated_at": "2026-07-17T21:28:34.282Z",
+    "name": "Wedding Day",
+    "slug": "wedding-day",
+    "description": "",
+    "category": 2,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.286Z",
+    "updated_at": "2026-07-17T21:28:34.286Z",
+    "name": "Anniversary",
+    "slug": "anniversary",
+    "description": "",
+    "category": 2,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 6,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.288Z",
+    "updated_at": "2026-07-17T21:28:34.288Z",
+    "name": "New Baby Boy",
+    "slug": "new-baby-boy",
+    "description": "",
+    "category": 3,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 7,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.291Z",
+    "updated_at": "2026-07-17T21:28:34.291Z",
+    "name": "New Baby Girl",
+    "slug": "new-baby-girl",
+    "description": "",
+    "category": 3,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 8,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.295Z",
+    "updated_at": "2026-07-17T21:28:34.295Z",
+    "name": "With Sympathy",
+    "slug": "with-sympathy",
+    "description": "",
+    "category": 4,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 9,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.298Z",
+    "updated_at": "2026-07-17T21:28:34.298Z",
+    "name": "Thank You",
+    "slug": "thank-you-general",
+    "description": "",
+    "category": 5,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 10,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.300Z",
+    "updated_at": "2026-07-17T21:28:34.300Z",
+    "name": "Merry Christmas",
+    "slug": "merry-christmas",
+    "description": "",
+    "category": 6,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 11,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.303Z",
+    "updated_at": "2026-07-17T21:28:34.303Z",
+    "name": "Valentine's Day",
+    "slug": "valentines-day",
+    "description": "",
+    "category": 7,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.occasion",
+  "pk": 12,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.306Z",
+    "updated_at": "2026-07-17T21:28:34.306Z",
+    "name": "Congratulations Graduate",
+    "slug": "congratulations-grad",
+    "description": "",
+    "category": 8,
+    "is_seasonal": false,
+    "month": null,
+    "day": null
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.273Z",
+    "updated_at": "2026-07-17T21:28:34.273Z",
+    "name": "Birthday — Classic",
+    "slug": "birthday-general-classic",
+    "description": "A classic birthday card design.",
+    "occasion": 1,
+    "style": "funny",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "BIRTHDAY",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.278Z",
+    "updated_at": "2026-07-17T21:28:34.278Z",
+    "name": "21st Birthday — Classic",
+    "slug": "21st-birthday-classic",
+    "description": "A classic 21st birthday card design.",
+    "occasion": 2,
+    "style": "funny",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "21ST BIRTHDAY",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.280Z",
+    "updated_at": "2026-07-17T21:28:34.280Z",
+    "name": "Milestone Birthday — Classic",
+    "slug": "milestone-birthday-classic",
+    "description": "A classic milestone birthday card design.",
+    "occasion": 3,
+    "style": "traditional",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "MILESTONE BIRTHDAY",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.284Z",
+    "updated_at": "2026-07-17T21:28:34.284Z",
+    "name": "Wedding Day — Classic",
+    "slug": "wedding-day-classic",
+    "description": "A classic wedding day card design.",
+    "occasion": 4,
+    "style": "luxury",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "WEDDING DAY",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.287Z",
+    "updated_at": "2026-07-17T21:28:34.287Z",
+    "name": "Anniversary — Classic",
+    "slug": "anniversary-classic",
+    "description": "A classic anniversary card design.",
+    "occasion": 5,
+    "style": "traditional",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "ANNIVERSARY",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 6,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.289Z",
+    "updated_at": "2026-07-17T21:28:34.289Z",
+    "name": "New Baby Boy — Classic",
+    "slug": "new-baby-boy-classic",
+    "description": "A classic new baby boy card design.",
+    "occasion": 6,
+    "style": "photo",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "NEW BABY BOY",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 7,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.292Z",
+    "updated_at": "2026-07-17T21:28:34.293Z",
+    "name": "New Baby Girl — Classic",
+    "slug": "new-baby-girl-classic",
+    "description": "A classic new baby girl card design.",
+    "occasion": 7,
+    "style": "photo",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "NEW BABY GIRL",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 8,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.296Z",
+    "updated_at": "2026-07-17T21:28:34.296Z",
+    "name": "With Sympathy — Classic",
+    "slug": "with-sympathy-classic",
+    "description": "A classic with sympathy card design.",
+    "occasion": 8,
+    "style": "traditional",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "WITH SYMPATHY",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 9,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.299Z",
+    "updated_at": "2026-07-17T21:28:34.299Z",
+    "name": "Thank You — Classic",
+    "slug": "thank-you-general-classic",
+    "description": "A classic thank you card design.",
+    "occasion": 9,
+    "style": "traditional",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "THANK YOU",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 10,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.301Z",
+    "updated_at": "2026-07-17T21:28:34.301Z",
+    "name": "Merry Christmas — Classic",
+    "slug": "merry-christmas-classic",
+    "description": "A classic merry christmas card design.",
+    "occasion": 10,
+    "style": "traditional",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "MERRY CHRISTMAS",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 11,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.305Z",
+    "updated_at": "2026-07-17T21:28:34.305Z",
+    "name": "Valentine's Day — Classic",
+    "slug": "valentines-day-classic",
+    "description": "A classic valentine's day card design.",
+    "occasion": 11,
+    "style": "luxury",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "VALENTINE'S DAY",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.cardtemplate",
+  "pk": 12,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.307Z",
+    "updated_at": "2026-07-17T21:28:34.307Z",
+    "name": "Congratulations Graduate — Classic",
+    "slug": "congratulations-grad-classic",
+    "description": "A classic congratulations graduate card design.",
+    "occasion": 12,
+    "style": "funny",
+    "thumbnail": "",
+    "preview_image": "",
+    "canvas_data": {
+      "version": "5.3.0",
+      "background": "#FFF8F0",
+      "objects": [
+        {
+          "type": "text",
+          "text": "CONGRATULATIONS GRADUATE",
+          "left": 874,
+          "top": 400,
+          "fontSize": 72,
+          "fill": "#2D2D2D",
+          "fontFamily": "Georgia",
+          "originX": "center",
+          "textAlign": "center"
+        },
+        {
+          "type": "text",
+          "text": "With love",
+          "left": 874,
+          "top": 2000,
+          "fontSize": 36,
+          "fill": "#666666",
+          "fontFamily": "Georgia",
+          "originX": "center"
+        }
+      ]
+    },
+    "is_premium": false,
+    "is_active": true,
+    "popularity_score": 100
+  }
+},
+{
+  "model": "piggyback.giftaddon",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.308Z",
+    "updated_at": "2026-07-17T21:28:34.308Z",
+    "name": "Belgian Chocolates",
+    "description": "Luxury Belgian truffles, 200g",
+    "image": "",
+    "price_pence": 599,
+    "is_active": true
+  }
+},
+{
+  "model": "piggyback.giftaddon",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.310Z",
+    "updated_at": "2026-07-17T21:28:34.310Z",
+    "name": "Scented Candle",
+    "description": "Lavender & vanilla, 40hr burn",
+    "image": "",
+    "price_pence": 899,
+    "is_active": true
+  }
+},
+{
+  "model": "piggyback.giftaddon",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.311Z",
+    "updated_at": "2026-07-17T21:28:34.311Z",
+    "name": "Mini Prosecco",
+    "description": "200ml bottle, ready to celebrate",
+    "image": "",
+    "price_pence": 799,
+    "is_active": true
+  }
+},
+{
+  "model": "piggyback.designasset",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.312Z",
+    "updated_at": "2026-07-17T21:28:34.312Z",
+    "name": "Sticker 🎈",
+    "asset_type": "sticker",
+    "image": "",
+    "svg_data": "",
+    "tags": "sticker,fun",
+    "is_premium": false
+  }
+},
+{
+  "model": "piggyback.designasset",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.313Z",
+    "updated_at": "2026-07-17T21:28:34.313Z",
+    "name": "Sticker 🎉",
+    "asset_type": "sticker",
+    "image": "",
+    "svg_data": "",
+    "tags": "sticker,fun",
+    "is_premium": false
+  }
+},
+{
+  "model": "piggyback.designasset",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.314Z",
+    "updated_at": "2026-07-17T21:28:34.314Z",
+    "name": "Sticker ⭐",
+    "asset_type": "sticker",
+    "image": "",
+    "svg_data": "",
+    "tags": "sticker,fun",
+    "is_premium": false
+  }
+},
+{
+  "model": "piggyback.designasset",
+  "pk": 4,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.315Z",
+    "updated_at": "2026-07-17T21:28:34.315Z",
+    "name": "Sticker 🌸",
+    "asset_type": "sticker",
+    "image": "",
+    "svg_data": "",
+    "tags": "sticker,fun",
+    "is_premium": false
+  }
+},
+{
+  "model": "piggyback.designasset",
+  "pk": 5,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.316Z",
+    "updated_at": "2026-07-17T21:28:34.316Z",
+    "name": "Sticker 🦋",
+    "asset_type": "sticker",
+    "image": "",
+    "svg_data": "",
+    "tags": "sticker,fun",
+    "is_premium": false
+  }
+},
+{
+  "model": "piggyback.designasset",
+  "pk": 6,
+  "fields": {
+    "created_at": "2026-07-17T21:28:34.317Z",
+    "updated_at": "2026-07-17T21:28:34.317Z",
+    "name": "Sticker 🎁",
+    "asset_type": "sticker",
+    "image": "",
+    "svg_data": "",
+    "tags": "sticker,fun",
+    "is_premium": false
+  }
+}
+]

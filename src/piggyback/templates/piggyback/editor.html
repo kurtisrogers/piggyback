@@ -1,0 +1,72 @@
+{% extends "piggyback/base.html" %}
+{% load static %}
+
+{% block title %}Card Editor{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'piggyback/css/editor.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="pb-editor" data-card-id="{{ card.id|default:'' }}">
+  <div class="pb-editor__toolbar">
+    <div class="pb-editor__toolbar-left">
+      <input type="text" id="card-title" class="pb-input" value="{{ card.title|default:'Untitled Card' }}" placeholder="Card title">
+      <select id="font-family" class="pb-select">
+        <option value="Georgia">Georgia</option>
+        <option value="Arial">Arial</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Playfair Display">Playfair Display</option>
+      </select>
+      <input type="number" id="font-size" class="pb-input pb-input--sm" value="48" min="12" max="120">
+      <input type="color" id="text-color" value="#2D2D2D" title="Text colour">
+      <button type="button" id="add-text" class="pb-btn pb-btn--sm">+ Text</button>
+      <label class="pb-btn pb-btn--sm">
+        + Photo
+        <input type="file" id="photo-upload" accept="image/*" hidden>
+      </label>
+    </div>
+    <div class="pb-editor__toolbar-right">
+      <button type="button" id="save-card" class="pb-btn pb-btn--outline pb-btn--sm">Save</button>
+      <a href="{% url 'piggyback:cart' %}" class="pb-btn pb-btn--primary pb-btn--sm">Send Card</a>
+    </div>
+  </div>
+
+  <div class="pb-editor__workspace">
+    <aside class="pb-editor__sidebar">
+      <h4>Stickers</h4>
+      <div class="pb-sticker-palette" id="sticker-palette">
+        <button type="button" data-sticker="🎈">🎈</button>
+        <button type="button" data-sticker="🎉">🎉</button>
+        <button type="button" data-sticker="⭐">⭐</button>
+        <button type="button" data-sticker="🌸">🌸</button>
+        <button type="button" data-sticker="🦋">🦋</button>
+        <button type="button" data-sticker="🎁">🎁</button>
+        <button type="button" data-sticker="❤️">❤️</button>
+        <button type="button" data-sticker="🎂">🎂</button>
+      </div>
+      <h4>Background</h4>
+      <div class="pb-bg-palette" id="bg-palette">
+        <button type="button" data-color="#FFF8F0" style="background:#FFF8F0"></button>
+        <button type="button" data-color="#FFE4E8" style="background:#FFE4E8"></button>
+        <button type="button" data-color="#E8F4FD" style="background:#E8F4FD"></button>
+        <button type="button" data-color="#F0FFF0" style="background:#F0FFF0"></button>
+        <button type="button" data-color="#2D2D2D" style="background:#2D2D2D"></button>
+      </div>
+      <h4>Inside Message</h4>
+      <textarea id="inside-message" class="pb-textarea" rows="6" placeholder="Write your heartfelt message...">{{ card.inside_message|default:'' }}</textarea>
+    </aside>
+
+    <div class="pb-editor__canvas-wrap">
+      <canvas id="card-canvas" width="437" height="620"></canvas>
+      <p class="pb-editor__hint">Click text to edit · Drag to reposition · Scroll to resize</p>
+    </div>
+  </div>
+</div>
+
+<script id="canvas-data" type="application/json">{{ card.canvas_data|default:"{}"|safe }}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+<script src="{% static 'piggyback/js/editor.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}{% endblock %}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Piggyback — Design, save, and send beautiful occasion cards in Django. A Moonpig-style plugin with card editor, library, e-cards, and postal delivery.">
+  <title>Piggyback — Occasion Cards for Django</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a href="/" class="logo">
+        <span class="logo__icon">🐷</span>
+        <span>Piggyback</span>
+      </a>
+      <nav class="nav">
+        <a href="#features">Features</a>
+        <a href="docs/">Documentation</a>
+        <a href="https://github.com/kurtisrogers/piggyback" target="_blank" rel="noopener">GitHub</a>
+        <a href="docs/getting-started/quickstart/" class="btn btn--primary">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <span class="badge">Open Source Django Plugin</span>
+        <h1>Occasion cards,<br><em>reimagined</em> for Django</h1>
+        <p class="hero__lead">
+          Design personalised greeting cards, save them to a library, send by email or post —
+          birthdays, weddings, sympathy, and every occasion in between. Drop-in Django app with full REST API.
+        </p>
+        <div class="hero__cta">
+          <a href="docs/getting-started/installation/" class="btn btn--primary btn--lg">Install Now</a>
+          <a href="https://github.com/kurtisrogers/piggyback" class="btn btn--ghost btn--lg">View on GitHub</a>
+        </div>
+        <div class="hero__install">
+          <code>pip install django-piggyback</code>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="card-showcase">
+          <div class="card-showcase__item card-showcase__item--1">
+            <div class="card-showcase__inner">
+              <span class="card-showcase__emoji">🎂</span>
+              <p>Happy Birthday<br>Mum!</p>
+            </div>
+          </div>
+          <div class="card-showcase__item card-showcase__item--2">
+            <div class="card-showcase__inner">
+              <span class="card-showcase__emoji">💍</span>
+              <p>Congratulations<br>on your wedding</p>
+            </div>
+          </div>
+          <div class="card-showcase__item card-showcase__item--3">
+            <div class="card-showcase__inner">
+              <span class="card-showcase__emoji">❤️</span>
+              <p>With all<br>my love</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="container stats__grid">
+      <div><strong>12+</strong><span>Occasions</span></div>
+      <div><strong>Full</strong><span>REST API</span></div>
+      <div><strong>3</strong><span>Delivery Methods</span></div>
+      <div><strong>0</strong><span>Vendor Lock-in</span></div>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Everything Moonpig does.<br>In your Django app.</h2>
+      <div class="features__grid">
+        <article class="feature-card">
+          <div class="feature-card__icon">✏️</div>
+          <h3>Card Designer</h3>
+          <p>Fabric.js-powered editor with text, photos, stickers, and backgrounds. Double-click to edit, drag to position.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon">🛍️</div>
+          <h3>Card Shop</h3>
+          <p>Browse templates by occasion and style — funny, traditional, photo, luxury, kids, and blank.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon">📚</div>
+          <h3>Card Library</h3>
+          <p>Auto-synced library of drafts, saved designs, sent cards, and favourites. Never lose a design.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon">📧</div>
+          <h3>E-Cards &amp; Post</h3>
+          <p>Send instantly by email or schedule posted delivery. Pluggable backends for your print partner.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon">👥</div>
+          <h3>Address Book</h3>
+          <p>Manage recipients with email, postal addresses, birthdays, and anniversaries.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon">🔔</div>
+          <h3>Reminders</h3>
+          <p>Automated email reminders before birthdays and anniversaries. Cron-ready management command.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon">🎁</div>
+          <h3>Gift Add-ons</h3>
+          <p>Attach chocolates, candles, prosecco, and gift wrap to posted card orders.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon">🛒</div>
+          <h3>Checkout</h3>
+          <p>Full cart flow with promo codes, pricing, and payment hooks. Stripe-ready architecture.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-card__icon">🔌</div>
+          <h3>REST API</h3>
+          <p>Headless-ready DRF API for mobile apps, SPAs, and third-party integrations.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="code-section">
+    <div class="container code-section__grid">
+      <div>
+        <h2>Five lines to get started</h2>
+        <p>Add Piggyback to any Django project. Templates, editor, API, and admin included.</p>
+      </div>
+      <pre class="code-block"><span class="code-comment"># settings.py</span>
+INSTALLED_APPS = [..., <span class="code-string">"piggyback"</span>]
+
+<span class="code-comment"># urls.py</span>
+path(<span class="code-string">""</span>, include(<span class="code-string">"piggyback.urls"</span>)),
+
+<span class="code-comment"># terminal</span>
+python manage.py migrate
+python manage.py load_sample_data</pre>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container cta-section__inner">
+      <h2>Ready to send some joy?</h2>
+      <p>Read the docs, clone the repo, and start designing cards in minutes.</p>
+      <div class="cta-section__buttons">
+        <a href="docs/" class="btn btn--primary btn--lg">Read the Docs</a>
+        <a href="https://github.com/kurtisrogers/piggyback" class="btn btn--outline btn--lg">Star on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="logo"><span class="logo__icon">🐷</span> Piggyback</div>
+      <p>MIT License &copy; 2026 Piggyback Contributors</p>
+      <div class="footer__links">
+        <a href="docs/">Docs</a>
+        <a href="https://github.com/kurtisrogers/piggyback">GitHub</a>
+        <a href="docs/api/endpoints/">API</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

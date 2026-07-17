@@ -1,0 +1,107 @@
+.pb-editor { height: calc(100vh - 64px); display: flex; flex-direction: column; }
+
+.pb-editor__toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: white;
+  border-bottom: 1px solid var(--pb-border);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pb-editor__toolbar-left,
+.pb-editor__toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pb-select {
+  padding: 6px 10px;
+  border: 1px solid var(--pb-border);
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+.pb-input--sm { width: 70px; }
+
+.pb-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--pb-border);
+  border-radius: 8px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.pb-editor__workspace {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.pb-editor__sidebar {
+  width: 220px;
+  padding: 16px;
+  background: white;
+  border-right: 1px solid var(--pb-border);
+  overflow-y: auto;
+}
+
+.pb-editor__sidebar h4 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--pb-muted);
+  margin: 16px 0 8px;
+}
+
+.pb-editor__sidebar h4:first-child { margin-top: 0; }
+
+.pb-sticker-palette,
+.pb-bg-palette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.pb-sticker-palette button,
+.pb-bg-palette button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--pb-border);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.1s;
+}
+
+.pb-sticker-palette button:hover,
+.pb-bg-palette button:hover { transform: scale(1.1); }
+
+.pb-bg-palette button { border-radius: 50%; }
+
+.pb-editor__canvas-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #E8E0DC;
+  padding: 24px;
+}
+
+#card-canvas {
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+.pb-editor__hint {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: var(--pb-muted);
+}
