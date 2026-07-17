@@ -32,7 +32,7 @@ The programmatic loader remains available without `--fixture`.
 ### Unit tests
 
 ```bash
-PYTHONPATH=src:example pytest tests/ --ignore=tests/bdd
+pytest tests/ --ignore=tests/bdd
 ```
 
 ### BDD / Playwright E2E
@@ -41,7 +41,7 @@ Gherkin features live in `tests/bdd/features/`:
 
 ```bash
 playwright install chromium
-DJANGO_ALLOW_ASYNC_UNSAFE=true PYTHONPATH=src:example pytest tests/bdd -v
+DJANGO_ALLOW_ASYNC_UNSAFE=true pytest tests/bdd -v
 ```
 
 Scenarios cover the home page, card catalog, authentication, and the system-user API.
@@ -49,7 +49,7 @@ Scenarios cover the home page, card catalog, authentication, and the system-user
 ### Everything
 
 ```bash
-DJANGO_ALLOW_ASYNC_UNSAFE=true PYTHONPATH=src:example pytest
+DJANGO_ALLOW_ASYNC_UNSAFE=true pytest
 ```
 
 ## Pre-commit
