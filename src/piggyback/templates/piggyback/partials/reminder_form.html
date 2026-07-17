@@ -1,0 +1,22 @@
+<form class="pb-form-card"
+      hx-post="{% url 'piggyback:reminder_create' %}"
+      hx-target="#reminders-panel"
+      hx-select="#reminders-panel"
+      hx-swap="outerHTML"
+      @htmx:after-request="if (event.detail.successful) $dispatch('pb-toast', { message: 'Reminder created', type: 'success' })">
+  {% csrf_token %}
+  <h3>Add reminder</h3>
+  <div class="pb-form-grid">
+    {{ form.title }}
+    {{ form.reminder_type }}
+    {{ form.event_date }}
+    {{ form.days_before }}
+    {{ form.recipient }}
+  </div>
+  {% if form.errors %}
+    <p class="pb-form-error">Please check the form and try again.</p>
+  {% endif %}
+  <div class="pb-form-actions">
+    <button type="submit" class="pb-btn pb-btn--primary">Add reminder</button>
+  </div>
+</form>

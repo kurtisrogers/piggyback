@@ -187,3 +187,57 @@ class TestSystemUserDetails:
         response = api_client.delete(f"/api/recipients/{recipient.id}/")
         assert response.status_code == 403
         assert Recipient.objects.filter(id=recipient.id).exists()
+
+
+@pytest.mark.django_db
+class TestHtmxViews:
+    def test_catalog_partial(self, client):
+        response = client.get("/catalog/", HTTP_HX_REQUEST="true")
+        assert response.status_code == 200
+        assert 'id="template-grid"' in response.content.decode()
+
+    def test_recipient_create_htmx(self, client, user):
+        client.force_login(user)
+        response = client.post(
+            "/recipients/add/",
+            {
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "email": "jane@example.com",
+            },
+            HTTP_HX_REQUEST="true",
+        )
+        assert response.status_code == 200
+        assert "Jane" in response.content.decode()
+        assert Recipient.objects.filter(owner=user, first_name="Jane").exists()
+
+    def test_reminder_create_htmx(self, client, user, recipient):
+        client.force_login(user)
+        response = client.post(
+            "/reminders/add/",
+            {
+                "title": "Jane's Birthday",
+                "reminder_type": "birthday",
+                "event_date": "2026-08-15",
+                "days_before": 7,
+                "recipient": recipient.id,
+            },
+            HTTP_HX_REQUEST="true",
+        )
+        assert response.status_code == 200
+        assert "Jane" in response.content.decode()
+        from piggyback.models import Reminder
+
+        assert Reminder.objects.filter(user=user, title="Jane's Birthday").exists()
+
+    def test_cart_remove_htmx(self, client, user, card, recipient):
+        from piggyback.services.checkout import add_card_to_cart
+
+        client.force_login(user)
+        item = add_card_to_cart(user, card, recipient=recipient)
+        response = client.delete(
+            f"/cart/remove/{item.id}/",
+            HTTP_HX_REQUEST="true",
+        )
+        assert response.status_code == 200
+        assert "empty" in response.content.decode().lower()

@@ -8,10 +8,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="pb-editor" data-card-id="{{ card.id|default:'' }}">
+<div class="pb-editor"
+     data-card-id="{{ card.id|default:'' }}"
+     x-data="cardEditor()"
+     @pb-edit-text.window="openTextEdit($event.detail)"
+     @close-modal.window="showSendModal = false">
   <div class="pb-editor__toolbar">
     <div class="pb-editor__toolbar-left">
-      <input type="text" id="card-title" class="pb-input" value="{{ card.title|default:'Untitled Card' }}" placeholder="Card title">
+      <input type="text" id="card-title" class="pb-input" x-model="title" placeholder="Card title">
       <select id="font-family" class="pb-select">
         <option value="Georgia">Georgia</option>
         <option value="Arial">Arial</option>
@@ -27,8 +31,23 @@
       </label>
     </div>
     <div class="pb-editor__toolbar-right">
-      <button type="button" id="save-card" class="pb-btn pb-btn--outline pb-btn--sm">Save</button>
-      <a href="{% url 'piggyback:cart' %}" class="pb-btn pb-btn--primary pb-btn--sm">Send Card</a>
+      <span class="pb-save-status" x-show="saveStatus" x-text="saveStatus" :class="{ 'pb-save-status--error': saveError }"></span>
+      <button type="button" id="save-card" class="pb-btn pb-btn--outline pb-btn--sm" :disabled="saving">
+        <span x-show="!saving">Save</span>
+        <span x-show="saving" class="pb-loading"></span>
+      </button>
+      {% if card %}
+      <button type="button"
+              class="pb-btn pb-btn--primary pb-btn--sm"
+              hx-get="{% url 'piggyback:editor_send_modal' card_id=card.id %}"
+              hx-target="#send-modal"
+              hx-swap="innerHTML"
+              @htmx:after-request="showSendModal = true">
+        Send Card
+      </button>
+      {% else %}
+      <a href="/admin/login/?next={{ request.path }}" class="pb-btn pb-btn--primary pb-btn--sm">Sign in to send</a>
+      {% endif %}
     </div>
   </div>
 
@@ -57,16 +76,22 @@
       <textarea id="inside-message" class="pb-textarea" rows="6" placeholder="Write your heartfelt message...">{{ card.inside_message|default:'' }}</textarea>
     </aside>
 
-    <div class="pb-editor__canvas-wrap">
+    <div class="pb-editor__canvas-wrap" style="position: relative;">
       <canvas id="card-canvas" width="437" height="620"></canvas>
-      <p class="pb-editor__hint">Click text to edit · Drag to reposition · Scroll to resize</p>
+      <div id="text-edit-overlay" class="pb-text-edit-overlay" x-show="editingText" x-cloak>
+        <textarea x-model="editTextValue" @keydown.enter.prevent="commitTextEdit()" @keydown.escape="cancelTextEdit()" rows="2"></textarea>
+      </div>
+      <p class="pb-editor__hint">Double-click text to edit · Drag to reposition</p>
     </div>
   </div>
+
+  <div id="send-modal" x-show="showSendModal" x-cloak></div>
 </div>
 
 <script id="canvas-data" type="application/json">{{ card.canvas_data|default:"{}"|safe }}</script>
+{% endblock %}
+
+{% block extra_js %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
 <script src="{% static 'piggyback/js/editor.js' %}"></script>
 {% endblock %}
-
-{% block extra_js %}{% endblock %}

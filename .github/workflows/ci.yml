@@ -90,3 +90,27 @@ jobs:
 
       - name: Build docs
         run: mkdocs build -f docs/mkdocs.yml
+
+  docker:
+    name: Docker build
+    runs-on: ubuntu-latest
+    needs: pre-commit
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t piggyback:test .
+
+      - name: Smoke test container
+        run: |
+          docker run -d --name piggyback-smoke -p 8000:8000 piggyback:test
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8000/ >/dev/null; then
+              echo "Container healthy"
+              docker stop piggyback-smoke
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs piggyback-smoke
+          exit 1

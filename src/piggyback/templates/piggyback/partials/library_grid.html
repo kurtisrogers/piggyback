@@ -1,0 +1,34 @@
+<div class="pb-library-grid" id="library-grid">
+{% for entry in entries %}
+  <div class="pb-library-card">
+    <div class="pb-library-card__preview">
+      {% if entry.card.preview_image %}
+        <img src="{{ entry.card.preview_image.url }}" alt="{{ entry.card.title }}">
+      {% else %}
+        <span>🎴</span>
+      {% endif %}
+    </div>
+    <div class="pb-library-card__body">
+      <h3>{{ entry.card.title }}</h3>
+      <span class="pb-badge">{{ entry.get_entry_type_display }}</span>
+      <div class="pb-library-card__actions">
+        <a href="{% url 'piggyback:editor' card_id=entry.card.id %}" class="pb-btn pb-btn--sm">Edit</a>
+        <button type="button"
+                class="pb-btn pb-btn--sm pb-btn--outline"
+                hx-post="{% url 'piggyback:library_favorite' card_id=entry.card.id %}"
+                hx-swap="none"
+                @htmx:after-request="if (event.detail.successful) $dispatch('pb-toast', { message: 'Added to favourites', type: 'success' })">
+          ♥ Favourite
+        </button>
+      </div>
+    </div>
+  </div>
+{% empty %}
+  <div class="pb-empty-state">
+    <span class="pb-empty-state__icon">📚</span>
+    <h2>Your library is empty</h2>
+    <p>Start designing a card and it will appear here automatically.</p>
+    <a href="{% url 'piggyback:catalog' %}" class="pb-btn pb-btn--primary">Browse Cards</a>
+  </div>
+{% endfor %}
+</div>

@@ -1,5 +1,5 @@
 /**
- * Piggyback Card Editor — Fabric.js powered design canvas
+ * Piggyback Card Editor — Fabric.js + Alpine.js
  */
 (function () {
   'use strict';
@@ -9,6 +9,43 @@
 
   const editor = document.querySelector('.pb-editor');
   const cardId = editor?.dataset.cardId;
+
+  let textEditCallback = null;
+
+  window.cardEditor = function cardEditor() {
+    return {
+      title: document.getElementById('card-title')?.value || 'Untitled Card',
+      saving: false,
+      saveStatus: '',
+      saveError: false,
+      showSendModal: false,
+      editingText: false,
+      editTextValue: '',
+
+      openTextEdit(detail) {
+        this.editingText = true;
+        this.editTextValue = detail.text;
+        textEditCallback = detail.onCommit;
+        this.$nextTick(() => {
+          const overlay = document.querySelector('#text-edit-overlay textarea');
+          overlay?.focus();
+        });
+      },
+
+      commitTextEdit() {
+        if (textEditCallback) {
+          textEditCallback(this.editTextValue);
+          textEditCallback = null;
+        }
+        this.editingText = false;
+      },
+
+      cancelTextEdit() {
+        textEditCallback = null;
+        this.editingText = false;
+      },
+    };
+  };
 
   let initialData = {};
   try {
@@ -24,7 +61,6 @@
     preserveObjectStacking: true,
   });
 
-  // Load existing objects
   if (initialData.objects && initialData.objects.length) {
     initialData.objects.forEach(function (obj) {
       if (obj.type === 'text') {
@@ -42,7 +78,6 @@
     });
   }
 
-  // Toolbar: add text
   document.getElementById('add-text')?.addEventListener('click', function () {
     const fontFamily = document.getElementById('font-family')?.value || 'Georgia';
     const fontSize = parseInt(document.getElementById('font-size')?.value || '48', 10) / 4;
@@ -59,7 +94,6 @@
     canvas.setActiveObject(text);
   });
 
-  // Photo upload
   document.getElementById('photo-upload')?.addEventListener('change', function (e) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -74,7 +108,6 @@
     reader.readAsDataURL(file);
   });
 
-  // Stickers
   document.getElementById('sticker-palette')?.addEventListener('click', function (e) {
     const btn = e.target.closest('[data-sticker]');
     if (!btn) return;
@@ -86,14 +119,12 @@
     canvas.add(sticker);
   });
 
-  // Background colours
   document.getElementById('bg-palette')?.addEventListener('click', function (e) {
     const btn = e.target.closest('[data-color]');
     if (!btn) return;
     canvas.setBackgroundColor(btn.dataset.color, canvas.renderAll.bind(canvas));
   });
 
-  // Update selected text properties
   function updateSelected() {
     const obj = canvas.getActiveObject();
     if (!obj || obj.type !== 'text') return;
@@ -110,19 +141,22 @@
   document.getElementById('font-size')?.addEventListener('input', updateSelected);
   document.getElementById('text-color')?.addEventListener('input', updateSelected);
 
-  // Double-click to edit text
   canvas.on('mouse:dblclick', function (opt) {
     const obj = opt.target;
     if (!obj || obj.type !== 'text') return;
-    const current = obj.text;
-    const updated = prompt('Edit text:', current);
-    if (updated !== null) {
-      obj.set('text', updated);
-      canvas.renderAll();
-    }
+    window.dispatchEvent(
+      new CustomEvent('pb-edit-text', {
+        detail: {
+          text: obj.text,
+          onCommit: function (updated) {
+            obj.set('text', updated);
+            canvas.renderAll();
+          },
+        },
+      })
+    );
   });
 
-  // Serialize canvas state
   function getCanvasData() {
     const objects = canvas.getObjects().map(function (obj) {
       if (obj.type === 'text') {
@@ -158,17 +192,32 @@
     };
   }
 
-  // Save card via API
+  function getEditorAlpine() {
+    if (!editor || !editor._x_dataStack) return null;
+    return editor._x_dataStack[0];
+  }
+
+  function showToast(message, type) {
+    window.dispatchEvent(new CustomEvent('pb-toast', { detail: { message: message, type: type || 'success' } }));
+  }
+
   document.getElementById('save-card')?.addEventListener('click', async function () {
     if (!cardId) {
-      alert('Please sign in to save your card.');
+      showToast('Please sign in to save your card.', 'error');
       return;
+    }
+
+    const alpine = getEditorAlpine();
+    if (alpine) {
+      alpine.saving = true;
+      alpine.saveStatus = '';
+      alpine.saveError = false;
     }
 
     const payload = {
       canvas_data: getCanvasData(),
       inside_message: document.getElementById('inside-message')?.value || '',
-      title: document.getElementById('card-title')?.value || 'Untitled Card',
+      title: alpine?.title || document.getElementById('card-title')?.value || 'Untitled Card',
     };
 
     try {
@@ -181,13 +230,24 @@
         body: JSON.stringify(payload),
       });
       if (resp.ok) {
-        alert('Card saved!');
+        showToast('Card saved!');
+        if (alpine) alpine.saveStatus = 'Saved';
       } else {
-        alert('Save failed. Are you signed in?');
+        showToast('Save failed. Are you signed in?', 'error');
+        if (alpine) {
+          alpine.saveStatus = 'Save failed';
+          alpine.saveError = true;
+        }
       }
     } catch (err) {
       console.error(err);
-      alert('Save failed.');
+      showToast('Save failed.', 'error');
+      if (alpine) {
+        alpine.saveStatus = 'Save failed';
+        alpine.saveError = true;
+      }
+    } finally {
+      if (alpine) alpine.saving = false;
     }
   });
 

@@ -1,15 +1,16 @@
 # Card Designer
 
-The Piggyback card editor is a browser-based design tool built on [Fabric.js](https://fabricjs.com/).
+The Piggyback card editor is a browser-based design tool built on [Fabric.js](https://fabricjs.com/), with [Alpine.js](https://alpinejs.dev/) for toolbar state and [HTMX](https://htmx.org/) for the send-to-cart flow.
 
 ## Features
 
-- **Text editing** — Add text, change fonts, sizes, and colours. Double-click to edit inline.
+- **Text editing** — Add text, change fonts, sizes, and colours. Double-click for an inline Alpine overlay (no browser prompts).
 - **Photo upload** — Upload personal photos and position them on the card.
 - **Stickers** — Emoji sticker palette for quick decoration.
 - **Backgrounds** — One-click background colour changes.
 - **Inside message** — Separate inside message field for the card interior.
-- **Auto-save** — Save designs via API; previews generated server-side with Pillow.
+- **Save with feedback** — Save via API with toast notifications and status indicator.
+- **Send to cart** — HTMX modal to pick recipient, delivery method, and gift add-ons.
 
 ## Canvas data format
 

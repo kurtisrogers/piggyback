@@ -8,8 +8,8 @@ src/piggyback/
 ├── api/              # DRF serializers, viewsets, URLs
 ├── views/            # Django template views
 ├── services/         # Business logic (delivery, checkout, rendering)
-├── templates/        # HTML templates
-├── static/           # CSS, JS (editor)
+├── templates/        # HTML templates + HTMX partials
+├── static/           # CSS, JS (editor + Fabric.js)
 ├── management/       # Management commands
 ├── templatetags/     # Template filters
 ├── admin.py          # Django admin
@@ -40,6 +40,7 @@ erDiagram
 
 - **Pluggable delivery** — Swap email/postal backends via settings
 - **Headless-ready** — Full REST API alongside web UI
+- **HTMX + Alpine** — Progressive enhancement without a SPA build step
 - **Signal-driven library** — Card library stays in sync automatically
 - **JSON canvas storage** — Editor state stored as portable Fabric.js JSON
 

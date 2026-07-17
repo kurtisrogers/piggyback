@@ -1,0 +1,29 @@
+<div id="reminder-list">
+{% for reminder in reminders %}
+  <div class="pb-reminder-card" id="reminder-{{ reminder.id }}">
+    <span class="pb-reminder-card__date">{{ reminder.event_date|date:"j M" }}</span>
+    <div>
+      <h3>{{ reminder.title }}</h3>
+      <p>{{ reminder.days_before }} days before · {{ reminder.get_reminder_type_display }}</p>
+      {% if reminder.recipient %}<p class="pb-muted">{{ reminder.recipient.full_name }}</p>{% endif %}
+    </div>
+    <div class="pb-reminder-card__actions">
+      <a href="{% url 'piggyback:catalog' %}" class="pb-btn pb-btn--sm">Send Card</a>
+      <button type="button"
+              class="pb-btn pb-btn--sm pb-btn--danger"
+              hx-delete="{% url 'piggyback:reminder_delete' pk=reminder.id %}"
+              hx-target="#reminders-panel"
+              hx-select="#reminders-panel"
+              hx-swap="outerHTML"
+              hx-confirm="Delete this reminder?">
+        Remove
+      </button>
+    </div>
+  </div>
+{% empty %}
+  <div class="pb-empty-state" id="reminder-empty">
+    <h2>No reminders set</h2>
+    <p>Add a reminder using the form above.</p>
+  </div>
+{% endfor %}
+</div>

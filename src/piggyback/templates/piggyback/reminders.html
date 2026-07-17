@@ -9,20 +9,6 @@
 </div>
 
 <div class="pb-container">
-  {% for reminder in reminders %}
-    <div class="pb-reminder-card">
-      <span class="pb-reminder-card__date">{{ reminder.event_date|date:"j M" }}</span>
-      <div>
-        <h3>{{ reminder.title }}</h3>
-        <p>{{ reminder.days_before }} days before · {{ reminder.get_reminder_type_display }}</p>
-      </div>
-      <a href="{% url 'piggyback:catalog' %}" class="pb-btn pb-btn--sm">Send Card</a>
-    </div>
-  {% empty %}
-    <div class="pb-empty-state">
-      <h2>No reminders set</h2>
-      <p>Add reminders via the API to get notified before birthdays and anniversaries.</p>
-    </div>
-  {% endfor %}
+  {% include "piggyback/partials/reminders_panel.html" %}
 </div>
 {% endblock %}

@@ -1,0 +1,57 @@
+{% load piggyback_tags %}
+<div class="pb-modal-backdrop"
+     x-data="{ delivery: 'ecard', giftWrap: false, giftId: '' }"
+     @keydown.escape.window="$dispatch('close-modal')">
+  <div class="pb-modal" @click.outside="$dispatch('close-modal')">
+    <h2>Send your card</h2>
+    <p>Choose delivery and recipient, then add to cart.</p>
+
+    <form hx-post="{% url 'piggyback:editor_send' card_id=card.id %}"
+          hx-swap="none"
+          @htmx:after-request="if (event.detail.successful) { $dispatch('pb-toast', { message: 'Added to cart!', type: 'success' }); $dispatch('close-modal'); setTimeout(() => window.location.href = '{% url 'piggyback:cart' %}', 800) }">
+      {% csrf_token %}
+
+      <label class="pb-input-label">Recipient</label>
+      <select name="recipient_id" class="pb-select" required>
+        <option value="">Select recipient…</option>
+        {% for recipient in recipients %}
+          <option value="{{ recipient.id }}">{{ recipient.full_name }}</option>
+        {% endfor %}
+      </select>
+
+      <label class="pb-input-label">Delivery method</label>
+      <select name="delivery_method" class="pb-select" x-model="delivery">
+        <option value="ecard">E-Card (Email)</option>
+        <option value="post">Posted Card</option>
+        <option value="print">Print at Home</option>
+      </select>
+
+      {% if gifts %}
+      <label class="pb-input-label">Gift add-on (optional)</label>
+      <div class="pb-gift-grid">
+        <label class="pb-gift-option" :class="{ selected: giftId === '' }">
+          <input type="radio" name="gift_addon_id" value="" x-model="giftId">
+          <span>None</span>
+        </label>
+        {% for gift in gifts %}
+        <label class="pb-gift-option" :class="{ selected: giftId === '{{ gift.id }}' }">
+          <input type="radio" name="gift_addon_id" value="{{ gift.id }}" x-model="giftId">
+          <span>🎁 {{ gift.name }}</span>
+          <small>£{{ gift.price_pence|pence }}</small>
+        </label>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <label class="pb-checkbox">
+        <input type="checkbox" name="gift_wrap" value="true" x-model="giftWrap">
+        Gift wrap (+£1.99)
+      </label>
+
+      <div class="pb-modal__actions">
+        <button type="button" class="pb-btn pb-btn--outline" @click="$dispatch('close-modal')">Cancel</button>
+        <button type="submit" class="pb-btn pb-btn--primary">Add to cart</button>
+      </div>
+    </form>
+  </div>
+</div>

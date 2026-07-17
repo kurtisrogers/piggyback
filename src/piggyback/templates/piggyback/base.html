@@ -9,15 +9,16 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'piggyback/css/piggyback.css' %}">
   {% block extra_css %}{% endblock %}
+  <meta name="csrf-token" content="{{ csrf_token }}">
 </head>
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
   <header class="pb-header">
     <div class="pb-container pb-header__inner">
       <a href="{% url 'piggyback:home' %}" class="pb-logo">
         <span class="pb-logo__icon">🐷</span>
         <span class="pb-logo__text">Piggyback</span>
       </a>
-      <nav class="pb-nav">
+      <nav class="pb-nav" hx-boost="true">
         <a href="{% url 'piggyback:catalog' %}">Cards</a>
         {% if user.is_authenticated %}
           <a href="{% url 'piggyback:library' %}">My Library</a>
@@ -31,6 +32,17 @@
       </nav>
     </div>
   </header>
+
+  <div class="pb-toast-container"
+       x-data="{ toast: { show: false, message: '', type: 'success' } }"
+       @pb-toast.window="toast = { show: true, message: $event.detail.message, type: $event.detail.type || 'success' }; setTimeout(() => toast.show = false, 3500)">
+    <div class="pb-toast"
+         x-show="toast.show"
+         x-transition
+         :class="'pb-toast--' + toast.type"
+         x-text="toast.message"
+         role="status"></div>
+  </div>
 
   <main class="pb-main">
     {% block content %}{% endblock %}
@@ -59,6 +71,8 @@
     </div>
   </footer>
 
+  <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js" defer></script>
+  <script defer src="https://unpkg.com/alpinejs@3.14.8/dist/cdn.min.js"></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>
