@@ -13,6 +13,8 @@ from piggyback.models import (
     OrderItem,
     Recipient,
     Reminder,
+    Subscription,
+    SubscriptionPlan,
 )
 
 
@@ -284,3 +286,47 @@ class UserDetailsSerializer(serializers.Serializer):
     country = serializers.CharField()
     birthday = serializers.DateField(allow_null=True)
     anniversary = serializers.DateField(allow_null=True)
+
+
+class SubscriptionPlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubscriptionPlan
+        fields = [
+            "id",
+            "name",
+            "slug",
+            "description",
+            "amount_pence",
+            "currency",
+            "interval",
+            "grants_premium_access",
+        ]
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    plan = SubscriptionPlanSerializer(read_only=True)
+    is_active = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Subscription
+        fields = [
+            "id",
+            "plan",
+            "status",
+            "current_period_start",
+            "current_period_end",
+            "cancel_at_period_end",
+            "canceled_at",
+            "is_active",
+        ]
+        read_only_fields = fields
+
+    def get_is_active(self, obj) -> bool:
+        return obj.is_active
+
+
+class CheckoutSessionSerializer(serializers.Serializer):
+    checkout_url = serializers.URLField()
+    session_id = serializers.CharField()
+    provider = serializers.CharField()
+    publishable_key = serializers.CharField(required=False, allow_blank=True)

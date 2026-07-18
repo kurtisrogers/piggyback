@@ -39,3 +39,32 @@ USER_FIELD_MAP = {
     "last_name": "last_name",
 }
 PROFILE_FIELD_MAP = {}
+
+# Billing / Stripe
+PAYMENT_BACKEND = "piggyback.services.payments.stripe.StripePaymentBackend"
+STRIPE_SECRET_KEY = None
+STRIPE_PUBLISHABLE_KEY = None
+STRIPE_WEBHOOK_SECRET = None
+DEMO_PAYMENTS = True
+SUBSCRIPTION_ENABLED = True
+
+# Billing profile — host app integration with Piggyback fallback
+BILLING_ADAPTER = "piggyback.adapters.billing.DefaultBillingAdapter"
+BILLING_PROFILE_RELATION = None
+BILLING_FIELD_MAP = {
+    "stripe_customer_id": "stripe_customer_id",
+    "email": "billing_email",
+    "name": "billing_name",
+}
+USE_BILLING_PROFILE_FALLBACK = True
+BILLING_PROFILE_MODEL = None  # e.g. "myapp.BillingInfo" — replaces BillingProfile fallback
+BILLING_PROFILE_USER_FIELD = "user"  # FK field on fallback billing model
+
+# Optional user model override (must be compatible with AUTH_USER_MODEL)
+USER_MODEL = None
+
+STRIPE_ORDER_SUCCESS_URL = None
+STRIPE_ORDER_CANCEL_URL = None
+STRIPE_SUBSCRIPTION_SUCCESS_URL = None
+STRIPE_SUBSCRIPTION_CANCEL_URL = None
+STRIPE_BILLING_PORTAL_RETURN_URL = None

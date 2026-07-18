@@ -41,6 +41,7 @@ nav:
       - Delivery: features/delivery.md
       - Reminders: features/reminders.md
       - Checkout: features/checkout.md
+      - Stripe Billing: features/stripe-billing.md
   - API Reference:
       - Overview: api/overview.md
       - Endpoints: api/endpoints.md

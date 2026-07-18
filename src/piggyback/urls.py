@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from piggyback.views import web
+from piggyback.views.stripe_webhook import StripeWebhookView
 
 app_name = "piggyback"
 
@@ -48,6 +49,18 @@ urlpatterns = [
         name="cart_remove",
     ),
     path("checkout/<uuid:uuid>/", web.CheckoutView.as_view(), name="checkout"),
+    path("subscriptions/", web.SubscriptionPlansView.as_view(), name="subscriptions"),
+    path(
+        "subscriptions/<slug:slug>/checkout/",
+        web.SubscriptionCheckoutView.as_view(),
+        name="subscription_checkout",
+    ),
+    path(
+        "subscriptions/portal/",
+        web.SubscriptionPortalView.as_view(),
+        name="subscription_portal",
+    ),
+    path("stripe/webhook/", StripeWebhookView.as_view(), name="stripe_webhook"),
     path("orders/<uuid:uuid>/", web.OrderConfirmationView.as_view(), name="order_confirmation"),
     path("cards/view/<uuid:token>/", web.CardViewView.as_view(), name="card_view"),
     path("api/", include("piggyback.api.urls")),

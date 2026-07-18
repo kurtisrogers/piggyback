@@ -1,4 +1,5 @@
 from piggyback.models.base import TimeStampedModel
+from piggyback.models.billing import BillingProfile, Subscription, SubscriptionPlan
 from piggyback.models.cards import Card, CardLibraryEntry, CardStatus
 from piggyback.models.catalog import (
     CardStyle,
@@ -29,6 +30,9 @@ __all__ = [
     "CardStatus",
     "CardLibraryEntry",
     "Recipient",
+    "BillingProfile",
+    "SubscriptionPlan",
+    "Subscription",
     "DeliveryMethod",
     "DeliveryStatus",
     "GiftAddon",

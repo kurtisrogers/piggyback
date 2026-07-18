@@ -34,6 +34,7 @@
 | GET | `/api/library/?type=sent` | Yes | Filter by type |
 
 | GET | `/api/me/details/` | Yes | Resolved system user details |
+| GET | `/api/me/subscription/` | Yes | Current subscription status |
 | POST | `/api/me/sync_recipient/` | Yes | Sync system user to address book |
 
 ## Recipients
@@ -54,7 +55,24 @@
 | GET | `/api/orders/cart/` | Yes | Current cart |
 | POST | `/api/orders/add_to_cart/` | Yes | Add card to cart |
 | POST | `/api/orders/{uuid}/checkout/` | Yes | Proceed to checkout |
-| POST | `/api/orders/{uuid}/pay/` | Yes | Complete payment |
+| POST | `/api/orders/{uuid}/pay/` | Yes | Start payment (Stripe checkout or demo) |
+
+## Subscriptions
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/api/subscriptions/plans/` | No | List subscription plans |
+| GET | `/api/subscriptions/plans/{slug}/` | No | Plan detail |
+| POST | `/api/subscriptions/checkout/` | Yes | Start subscription checkout |
+| POST | `/api/subscriptions/portal/` | Yes | Open Stripe billing portal |
+| GET | `/api/subscriptions/` | Yes | List user's subscriptions |
+| GET | `/api/me/subscription/` | Yes | Current subscription status |
+
+## Webhooks
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/stripe/webhook/` | Stripe signature | Stripe event handler |
 
 ## Deliveries
 

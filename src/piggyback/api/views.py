@@ -3,13 +3,14 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from piggyback.adapters import get_user_details, sync_user_recipient
+from piggyback.adapters import get_user_details, sync_user_recipient, user_has_active_subscription
 from piggyback.api.serializers import (
     AddToCartSerializer,
     CardLibraryEntrySerializer,
     CardSerializer,
     CardTemplateSerializer,
     CheckoutSerializer,
+    CheckoutSessionSerializer,
     DeliverySerializer,
     DesignAssetSerializer,
     GiftAddonSerializer,
@@ -18,6 +19,8 @@ from piggyback.api.serializers import (
     OrderSerializer,
     RecipientSerializer,
     ReminderSerializer,
+    SubscriptionPlanSerializer,
+    SubscriptionSerializer,
     UserDetailsSerializer,
 )
 from piggyback.conf import get_setting
@@ -35,9 +38,12 @@ from piggyback.models import (
     Order,
     Recipient,
     Reminder,
+    Subscription,
+    SubscriptionPlan,
 )
 from piggyback.services.card_renderer import save_card_preview
 from piggyback.services.checkout import add_card_to_cart, checkout_order, complete_payment
+from piggyback.services.payments import get_payment_backend
 
 
 class OccasionCategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -160,6 +166,24 @@ class MeViewSet(viewsets.ViewSet):
         ).data
         return Response(payload)
 
+    @action(detail=False, methods=["get"])
+    def subscription(self, request):
+        sub = (
+            Subscription.objects.filter(user=request.user)
+            .select_related("plan")
+            .order_by("-created_at")
+            .first()
+        )
+        if sub is None:
+            return Response({"active": False, "subscription": None})
+        return Response(
+            {
+                "active": sub.is_active,
+                "has_premium": user_has_active_subscription(request.user),
+                "subscription": SubscriptionSerializer(sub).data,
+            }
+        )
+
     @action(detail=False, methods=["post"])
     def sync_recipient(self, request):
         recipient = sync_user_recipient(request.user)
@@ -232,8 +256,21 @@ class OrderViewSet(viewsets.ReadOnlyModelViewSet):
         order = self.get_object()
         if order.status != Order.OrderStatus.PENDING_PAYMENT:
             return Response({"detail": "Order is not awaiting payment."}, status=400)
-        order = complete_payment(order)
-        return Response(OrderSerializer(order).data)
+
+        backend = get_payment_backend()
+        if backend.provider_name == "demo":
+            order = complete_payment(order)
+            return Response(OrderSerializer(order).data)
+
+        success_url = request.data.get("success_url") or get_setting("STRIPE_ORDER_SUCCESS_URL")
+        cancel_url = request.data.get("cancel_url") or get_setting("STRIPE_ORDER_CANCEL_URL")
+        if not success_url or not cancel_url:
+            return Response(
+                {"detail": "success_url and cancel_url are required for Stripe checkout."},
+                status=400,
+            )
+        session = backend.create_order_checkout_session(order, success_url, cancel_url)
+        return Response(CheckoutSessionSerializer(session).data)
 
 
 class DeliveryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -254,3 +291,67 @@ class ReminderViewSet(viewsets.ModelViewSet):
         return Reminder.objects.filter(user=self.request.user).select_related(
             "recipient", "occasion"
         )
+
+
+class SubscriptionPlanViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = SubscriptionPlan.objects.filter(is_active=True)
+    serializer_class = SubscriptionPlanSerializer
+    permission_classes = [AllowAny]
+    lookup_field = "slug"
+
+
+class SubscriptionViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = SubscriptionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Subscription.objects.filter(user=self.request.user).select_related("plan")
+
+    @action(detail=False, methods=["post"])
+    def checkout(self, request):
+        if not get_setting("SUBSCRIPTION_ENABLED"):
+            return Response({"detail": "Subscriptions are disabled."}, status=400)
+
+        plan_slug = request.data.get("plan_slug")
+        plan = SubscriptionPlan.objects.filter(slug=plan_slug, is_active=True).first()
+        if plan is None:
+            return Response({"detail": "Subscription plan not found."}, status=404)
+
+        backend = get_payment_backend()
+        success_url = request.data.get("success_url") or get_setting(
+            "STRIPE_SUBSCRIPTION_SUCCESS_URL"
+        )
+        cancel_url = request.data.get("cancel_url") or get_setting("STRIPE_SUBSCRIPTION_CANCEL_URL")
+        if not success_url or not cancel_url:
+            return Response(
+                {"detail": "success_url and cancel_url are required."},
+                status=400,
+            )
+
+        if backend.provider_name == "demo":
+            Subscription.objects.update_or_create(
+                user=request.user,
+                plan=plan,
+                stripe_subscription_id=f"demo_sub_{request.user.pk}_{plan.slug}",
+                defaults={
+                    "stripe_customer_id": f"demo_cus_{request.user.pk}",
+                    "status": Subscription.Status.ACTIVE,
+                },
+            )
+            return Response({"checkout_url": success_url, "provider": "demo"})
+
+        session = backend.create_subscription_checkout_session(
+            request.user, plan, success_url, cancel_url
+        )
+        return Response(CheckoutSessionSerializer(session).data)
+
+    @action(detail=False, methods=["post"])
+    def portal(self, request):
+        backend = get_payment_backend()
+        return_url = request.data.get("return_url") or get_setting(
+            "STRIPE_BILLING_PORTAL_RETURN_URL"
+        )
+        if not return_url:
+            return Response({"detail": "return_url is required."}, status=400)
+        session = backend.create_billing_portal_session(request.user, return_url)
+        return Response(session)

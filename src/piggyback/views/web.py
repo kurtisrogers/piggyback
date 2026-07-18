@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView
 
@@ -23,9 +24,12 @@ from piggyback.models import (
     OrderItem,
     Recipient,
     Reminder,
+    Subscription,
+    SubscriptionPlan,
 )
 from piggyback.services.card_renderer import canvas_data_from_template, default_blank_canvas
 from piggyback.services.checkout import add_card_to_cart, checkout_order, complete_payment
+from piggyback.services.payments import get_payment_backend
 from piggyback.views.htmx import is_htmx
 
 User = get_user_model()
@@ -355,12 +359,88 @@ class CheckoutView(LoginRequiredMixin, View):
 
     def get(self, request, uuid):
         order = get_object_or_404(Order, uuid=uuid, user=request.user)
-        return render(request, self.template_name, {"order": order})
+        backend = get_payment_backend()
+        return render(
+            request,
+            self.template_name,
+            {
+                "order": order,
+                "payment_provider": backend.provider_name,
+                "stripe_publishable_key": get_setting("STRIPE_PUBLISHABLE_KEY"),
+            },
+        )
 
     def post(self, request, uuid):
         order = get_object_or_404(Order, uuid=uuid, user=request.user)
-        complete_payment(order)
-        return redirect("piggyback:order_confirmation", uuid=order.uuid)
+        if order.status != Order.OrderStatus.PENDING_PAYMENT:
+            return redirect("piggyback:cart")
+
+        backend = get_payment_backend()
+        if backend.provider_name == "demo":
+            complete_payment(order)
+            return redirect("piggyback:order_confirmation", uuid=order.uuid)
+
+        success_url = request.build_absolute_uri(
+            reverse("piggyback:order_confirmation", kwargs={"uuid": order.uuid})
+        )
+        cancel_url = request.build_absolute_uri(
+            reverse("piggyback:checkout", kwargs={"uuid": order.uuid})
+        )
+        session = backend.create_order_checkout_session(order, success_url, cancel_url)
+        return redirect(session["checkout_url"])
+
+
+class SubscriptionPlansView(LoginRequiredMixin, TemplateView):
+    template_name = "piggyback/subscriptions.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["plans"] = SubscriptionPlan.objects.filter(is_active=True)
+        ctx["subscription"] = (
+            Subscription.objects.filter(user=self.request.user)
+            .select_related("plan")
+            .order_by("-created_at")
+            .first()
+        )
+        ctx["subscription_enabled"] = get_setting("SUBSCRIPTION_ENABLED")
+        ctx["payment_provider"] = get_payment_backend().provider_name
+        return ctx
+
+
+class SubscriptionCheckoutView(LoginRequiredMixin, View):
+    def post(self, request, slug):
+        if not get_setting("SUBSCRIPTION_ENABLED"):
+            return redirect("piggyback:subscriptions")
+
+        plan = get_object_or_404(SubscriptionPlan, slug=slug, is_active=True)
+        backend = get_payment_backend()
+        success_url = request.build_absolute_uri(reverse("piggyback:subscriptions"))
+        cancel_url = request.build_absolute_uri(reverse("piggyback:subscriptions"))
+
+        if backend.provider_name == "demo":
+            Subscription.objects.update_or_create(
+                user=request.user,
+                plan=plan,
+                stripe_subscription_id=f"demo_sub_{request.user.pk}_{plan.slug}",
+                defaults={
+                    "stripe_customer_id": f"demo_cus_{request.user.pk}",
+                    "status": Subscription.Status.ACTIVE,
+                },
+            )
+            return redirect("piggyback:subscriptions")
+
+        session = backend.create_subscription_checkout_session(
+            request.user, plan, success_url, cancel_url
+        )
+        return redirect(session["checkout_url"])
+
+
+class SubscriptionPortalView(LoginRequiredMixin, View):
+    def post(self, request):
+        backend = get_payment_backend()
+        return_url = request.build_absolute_uri(reverse("piggyback:subscriptions"))
+        session = backend.create_billing_portal_session(request.user, return_url)
+        return redirect(session["portal_url"])
 
 
 class OrderConfirmationView(LoginRequiredMixin, DetailView):
