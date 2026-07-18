@@ -22,7 +22,7 @@ Releases are published via GitHub Actions (`.github/workflows/workflow.yml`).
 2. Create a token scoped to the **pypiggyback** project (or whole account for first upload)
 3. On GitHub: **Settings → Secrets and variables → Actions** → add `PYPI_API_TOKEN`
 
-When this secret is set, the workflow uses token auth and skips trusted publishing.
+When this secret is set, the workflow uses token auth. When it is **not** set, the publish step falls back to trusted publishing (OIDC).
 
 ### Option B — Trusted publishing (OIDC, no secrets)
 
