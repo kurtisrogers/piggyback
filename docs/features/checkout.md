@@ -53,19 +53,14 @@ POST /api/orders/add_to_cart/
 POST /api/orders/{uuid}/checkout/
 {"promo_code": "FIRSTCARD"}
 
-# Pay (demo)
+# Pay (demo or Stripe)
 POST /api/orders/{uuid}/pay/
+{
+  "success_url": "https://example.com/orders/{uuid}/",
+  "cancel_url": "https://example.com/checkout/{uuid}/"
+}
 ```
 
-## Integrating real payments
+With Stripe configured, the pay endpoint returns a `checkout_url` to redirect the user. In demo mode it completes payment immediately.
 
-Replace the `pay` action with your payment provider (Stripe, etc.):
-
-```python
-# In your view or webhook handler
-from piggyback.services.checkout import complete_payment
-
-def stripe_webhook(request):
-    # Verify payment...
-    complete_payment(order)
-```
+See [Stripe Billing](stripe-billing.md) for full payment and subscription integration.

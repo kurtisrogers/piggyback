@@ -70,6 +70,9 @@ class Order(TimeStampedModel):
     currency = models.CharField(max_length=3, default="GBP")
     paid_at = models.DateTimeField(null=True, blank=True)
     promo_code = models.CharField(max_length=40, blank=True)
+    payment_provider = models.CharField(max_length=20, blank=True)
+    stripe_checkout_session_id = models.CharField(max_length=255, blank=True)
+    stripe_payment_intent_id = models.CharField(max_length=255, blank=True)
 
     class Meta:
         ordering = ["-created_at"]

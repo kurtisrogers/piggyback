@@ -12,8 +12,13 @@
   </div>
   <form method="post">
     {% csrf_token %}
-    <p class="pb-checkout__note">Demo mode — payment is simulated. Click below to complete your order.</p>
-    <button type="submit" class="pb-btn pb-btn--primary pb-btn--lg">Pay £{{ order.total_pence|pence }}</button>
+    {% if payment_provider == "demo" %}
+      <p class="pb-checkout__note">Demo mode — payment is simulated. Click below to complete your order.</p>
+      <button type="submit" class="pb-btn pb-btn--primary pb-btn--lg">Pay £{{ order.total_pence|pence }}</button>
+    {% else %}
+      <p class="pb-checkout__note">You will be redirected to Stripe to complete payment securely.</p>
+      <button type="submit" class="pb-btn pb-btn--primary pb-btn--lg">Pay with Stripe — £{{ order.total_pence|pence }}</button>
+    {% endif %}
   </form>
 </div>
 {% endblock %}

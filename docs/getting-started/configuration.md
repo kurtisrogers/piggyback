@@ -23,8 +23,22 @@ All Piggyback settings use the `PIGGYBACK_` prefix in Django settings.
 | `PIGGYBACK_USER_PROFILE_RELATION` | `None` | Profile relation on User, e.g. `"profile"` |
 | `PIGGYBACK_USER_FIELD_MAP` | see defaults | Map User fields to Piggyback details |
 | `PIGGYBACK_PROFILE_FIELD_MAP` | `{}` | Map profile fields to Piggyback details |
+| `PIGGYBACK_STRIPE_SECRET_KEY` | `None` | Stripe secret key |
+| `PIGGYBACK_STRIPE_PUBLISHABLE_KEY` | `None` | Stripe publishable key |
+| `PIGGYBACK_STRIPE_WEBHOOK_SECRET` | `None` | Stripe webhook signing secret |
+| `PIGGYBACK_DEMO_PAYMENTS` | `True` | Simulate payments when Stripe is unset |
+| `PIGGYBACK_SUBSCRIPTION_ENABLED` | `True` | Enable subscription sign-ups |
+| `PIGGYBACK_BILLING_ADAPTER` | Default adapter | Billing identity adapter class |
+| `PIGGYBACK_BILLING_PROFILE_RELATION` | `None` | Host billing profile relation on User |
+| `PIGGYBACK_BILLING_FIELD_MAP` | see defaults | Map billing profile fields |
+| `PIGGYBACK_BILLING_PROFILE_MODEL` | `None` | Custom fallback billing model |
+| `PIGGYBACK_BILLING_PROFILE_USER_FIELD` | `"user"` | User FK on fallback billing model |
+| `PIGGYBACK_USE_BILLING_PROFILE_FALLBACK` | `True` | Use Piggyback billing profile fallback |
+| `PIGGYBACK_USER_MODEL` | `None` | Optional user model override |
 
 See [System User Details](system-user-details.md) for full integration guide.
+
+See [Stripe Billing](../features/stripe-billing.md) for payment and subscription setup.
 
 ## Custom delivery backends
 

@@ -15,7 +15,8 @@ router.register(r"recipients", views.RecipientViewSet, basename="recipient")
 router.register(r"gifts", views.GiftAddonViewSet, basename="gift")
 router.register(r"orders", views.OrderViewSet, basename="order")
 router.register(r"deliveries", views.DeliveryViewSet, basename="delivery")
-router.register(r"reminders", views.ReminderViewSet, basename="reminder")
+router.register(r"subscriptions/plans", views.SubscriptionPlanViewSet, basename="subscription-plan")
+router.register(r"subscriptions", views.SubscriptionViewSet, basename="subscription")
 
 urlpatterns = [
     path("", include(router.urls)),

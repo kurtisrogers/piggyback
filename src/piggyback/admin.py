@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from piggyback.models import (
+    BillingProfile,
     Card,
     CardLibraryEntry,
     CardTemplate,
@@ -14,6 +15,8 @@ from piggyback.models import (
     OrderItem,
     Recipient,
     Reminder,
+    Subscription,
+    SubscriptionPlan,
 )
 
 
@@ -79,7 +82,7 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["uuid", "user", "status", "total_pence", "created_at"]
+    list_display = ["uuid", "user", "status", "total_pence", "payment_provider", "created_at"]
     list_filter = ["status"]
     inlines = [OrderItemInline]
     readonly_fields = ["uuid", "paid_at"]
@@ -101,3 +104,32 @@ class GiftAddonAdmin(admin.ModelAdmin):
 class ReminderAdmin(admin.ModelAdmin):
     list_display = ["title", "user", "event_date", "days_before", "is_active"]
     list_filter = ["reminder_type", "is_active"]
+
+
+@admin.register(BillingProfile)
+class BillingProfileAdmin(admin.ModelAdmin):
+    list_display = ["user", "billing_email", "stripe_customer_id", "updated_at"]
+    search_fields = ["user__username", "billing_email", "stripe_customer_id"]
+
+
+@admin.register(SubscriptionPlan)
+class SubscriptionPlanAdmin(admin.ModelAdmin):
+    list_display = [
+        "name",
+        "slug",
+        "amount_pence",
+        "interval",
+        "is_active",
+        "grants_premium_access",
+    ]
+    list_filter = ["interval", "is_active", "grants_premium_access"]
+    prepopulated_fields = {"slug": ("name",)}
+    search_fields = ["name", "slug", "stripe_price_id"]
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ["user", "plan", "status", "current_period_end", "cancel_at_period_end"]
+    list_filter = ["status", "plan", "cancel_at_period_end"]
+    search_fields = ["user__username", "stripe_subscription_id", "stripe_customer_id"]
+    readonly_fields = ["stripe_subscription_id"]

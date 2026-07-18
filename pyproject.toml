@@ -51,6 +51,10 @@ docker = [
     "psycopg[binary]>=3.1",
 ]
 
+stripe = [
+    "stripe>=8.0",
+]
+
 [project.urls]
 Homepage = "https://kurtisrogers.github.io/piggyback/"
 Documentation = "https://kurtisrogers.github.io/piggyback/docs/"
