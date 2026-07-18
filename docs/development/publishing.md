@@ -4,7 +4,7 @@ The package is published as **[pypiggyback](https://pypi.org/project/pypiggyback
 
 ## Automated publishing
 
-Releases are published via GitHub Actions (`.github/workflows/publish.yml`).
+Releases are published via GitHub Actions (`.github/workflows/workflow.yml`).
 
 ### Triggers
 
@@ -34,7 +34,7 @@ The workflow uses this token when the secret is set.
 | PyPI Project Name | `pypiggyback` |
 | Owner | `kurtisrogers` |
 | Repository name | `piggyback` |
-| Workflow name | `publish.yml` |
+| Workflow name | `workflow.yml` |
 | Environment name | *(leave blank)* |
 
 3. Do **not** create a GitHub `pypi` environment unless you also set the same name on PyPI
@@ -47,14 +47,14 @@ If publish fails with *"valid token, but no corresponding publisher"*, the PyPI 
 
 - Trusted publisher not added on the **pypiggyback** project
 - **Environment name** set on PyPI but not in the workflow (or vice versa) — leave blank on both sides
-- Wrong workflow filename — must be `publish.yml`, not `Publish to PyPI`
+- Wrong workflow filename — must be `workflow.yml`, not `Publish to PyPI`
 - Publisher added to a different PyPI project (e.g. old name)
 
 Claims from a failed run (for debugging):
 
 ```
 repository: kurtisrogers/piggyback
-workflow: publish.yml
+workflow: workflow.yml
 ```
 
 Either fix the trusted publisher to match, or add `PYPI_API_TOKEN` and re-run.
