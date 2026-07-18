@@ -16,18 +16,18 @@ Releases are published via GitHub Actions (`.github/workflows/workflow.yml`).
 
 ## Authentication (choose one)
 
-### Option A — API token (simplest)
+### Option A — API token (recommended if OIDC fails)
 
 1. On [pypi.org](https://pypi.org), go to **Account settings → API tokens**
 2. Create a token scoped to the **pypiggyback** project (or whole account for first upload)
 3. On GitHub: **Settings → Secrets and variables → Actions** → add `PYPI_API_TOKEN`
 
-The workflow uses this token when the secret is set.
+When this secret is set, the workflow uses token auth and skips trusted publishing.
 
 ### Option B — Trusted publishing (OIDC, no secrets)
 
-1. On [pypi.org](https://pypi.org), open **pypiggyback** → **Publishing** → **Add a new trusted publisher**
-2. Configure **exactly**:
+1. Go to [pypi.org/manage/account/publishing/](https://pypi.org/manage/account/publishing/)
+2. Add a **pending publisher** (or edit the existing one) with these **exact** values:
 
 | Field | Value |
 |-------|-------|
@@ -37,27 +37,22 @@ The workflow uses this token when the secret is set.
 | Workflow name | `workflow.yml` |
 | Environment name | *(leave blank)* |
 
-3. Do **not** create a GitHub `pypi` environment unless you also set the same name on PyPI
+!!! warning "Repository name is case-sensitive"
+    GitHub sends `kurtisrogers/piggyback` (all lowercase). If PyPI shows `Piggyback` with a capital **P**, trusted publishing will fail with `invalid-publisher`. Remove the pending publisher and re-add it with lowercase `piggyback`.
 
-If `PYPI_API_TOKEN` is **not** set, the workflow falls back to trusted publishing.
+## Troubleshooting `invalid-publisher`
 
-### Troubleshooting `invalid-publisher`
-
-If publish fails with *"valid token, but no corresponding publisher"*, the PyPI trusted publisher does not match the workflow. Common causes:
-
-- Trusted publisher not added on the **pypiggyback** project
-- **Environment name** set on PyPI but not in the workflow (or vice versa) — leave blank on both sides
-- Wrong workflow filename — must be `workflow.yml`, not `Publish to PyPI`
-- Publisher added to a different PyPI project (e.g. old name)
-
-Claims from a failed run (for debugging):
+If publish fails with *"valid token, but no corresponding publisher"*, compare your PyPI config to the GitHub OIDC claims:
 
 ```
 repository: kurtisrogers/piggyback
 workflow: workflow.yml
+environment: (none)
 ```
 
-Either fix the trusted publisher to match, or add `PYPI_API_TOKEN` and re-run.
+**Fastest fix:** add `PYPI_API_TOKEN` in GitHub repo secrets and re-run.
+
+**OIDC fix:** edit the pending publisher on PyPI so the repository is `piggyback` (not `Piggyback`).
 
 ## Release checklist
 
