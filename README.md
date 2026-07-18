@@ -5,11 +5,12 @@
 Piggyback is a Moonpig-style Django plugin that lets your users design personalised greeting cards, save them to a library, and send by email or post — with a full REST API, card editor, address book, reminders, gift add-ons, and checkout flow.
 
 [![CI](https://github.com/kurtisrogers/piggyback/actions/workflows/ci.yml/badge.svg)](https://github.com/kurtisrogers/piggyback/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/pypiggyback.svg)](https://pypi.org/project/pypiggyback/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-pink.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Django 4.2+](https://img.shields.io/badge/django-4.2+-green.svg)](https://www.djangoproject.com/)
 
-**[Landing Page](https://kurtisrogers.github.io/piggyback/)** · **[Documentation](https://kurtisrogers.github.io/piggyback/docs/)** · **[API Reference](https://kurtisrogers.github.io/piggyback/docs/api/endpoints/)**
+**[PyPI](https://pypi.org/project/pypiggyback/)** · **[Landing Page](https://kurtisrogers.github.io/piggyback/)** · **[Documentation](https://kurtisrogers.github.io/piggyback/docs/)** · **[API Reference](https://kurtisrogers.github.io/piggyback/docs/api/endpoints/)**
 
 ---
 
@@ -39,6 +40,8 @@ Open http://localhost:8000 — demo login `demo` / `demo12345`. See [Docker docs
 
 ## Quick install
 
+Install from [PyPI](https://pypi.org/project/pypiggyback/):
+
 ```bash
 pip install pypiggyback
 ```
@@ -65,6 +68,8 @@ python manage.py runserver
 ```
 
 Visit `http://localhost:8000` — browse cards, open the editor, sign in via `/admin/login/` to save and send.
+
+> **Note:** `pip install pypiggyback` installs the package; add `"piggyback"` to `INSTALLED_APPS`.
 
 ## Run the Example Project
 

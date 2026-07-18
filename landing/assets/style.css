@@ -101,6 +101,7 @@ body {
 .hero h1 em { color: var(--primary); font-style: normal; }
 .hero__lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 32px; max-width: 480px; }
 .hero__cta { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+.hero__install { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .hero__install code {
   display: inline-block;
   background: var(--text);
@@ -109,6 +110,13 @@ body {
   border-radius: 8px;
   font-size: 0.9rem;
 }
+.hero__pypi-link {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.hero__pypi-link:hover { text-decoration: underline; }
 
 /* Card showcase */
 .card-showcase { position: relative; height: 420px; }
