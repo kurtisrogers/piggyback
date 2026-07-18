@@ -105,6 +105,4 @@ class Subscription(TimeStampedModel):
         return self.status in {
             self.Status.ACTIVE,
             self.Status.TRIALING,
-        } and (
-            self.current_period_end is None or self.current_period_end >= timezone.now()
-        )
+        } and (self.current_period_end is None or self.current_period_end >= timezone.now())
