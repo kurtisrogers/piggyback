@@ -6,13 +6,27 @@
 - Django 4.2+
 - Pillow (for card preview rendering)
 
-## Install from source
+## Install from PyPI (recommended)
+
+Piggyback is published on PyPI as **[pypiggyback](https://pypi.org/project/pypiggyback/)**:
 
 ```bash
-git clone https://github.com/kurtisrogers/piggyback.git
-cd piggyback
-pip install -e ".[dev]"
+pip install pypiggyback
 ```
+
+Pin a version for reproducible builds:
+
+```bash
+pip install "pypiggyback==0.1.0"
+```
+
+Optional extras:
+
+```bash
+pip install "pypiggyback[docker]"   # Gunicorn + PostgreSQL driver for Docker/production
+```
+
+The **pip package name** is `pypiggyback`; the **Django app** you add to `INSTALLED_APPS` is `piggyback`.
 
 ## Django setup
 
@@ -58,6 +72,20 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+Visit `http://localhost:8000` — browse the card shop, open the editor, and sign in via `/admin/login/` to save and send.
+
+## Install from source
+
+For development or contributing:
+
+```bash
+git clone https://github.com/kurtisrogers/piggyback.git
+cd piggyback
+pip install -e ".[dev]"
+```
+
+See the [Quick Start](quickstart.md) guide and [Contributing](../development/contributing.md) for the full dev workflow.
+
 ## Media files
 
 Piggyback uses `ImageField` for templates, previews, and uploads. Configure media in development:
@@ -82,3 +110,12 @@ In development, use the console backend to see emails in your terminal:
 ```python
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 ```
+
+## Upgrading
+
+```bash
+pip install --upgrade pypiggyback
+python manage.py migrate
+```
+
+Check the [PyPI release history](https://pypi.org/project/pypiggyback/#history) for version notes.

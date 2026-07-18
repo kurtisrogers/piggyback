@@ -2,6 +2,9 @@
 
 **Piggyback** is a Django plugin for designing, saving, and sending occasion cards — think Moonpig, but as a drop-in Django app with a full REST API.
 
+[![PyPI](https://img.shields.io/pypi/v/pypiggyback.svg)](https://pypi.org/project/pypiggyback/)
+[![Python 3.10+](https://img.shields.io/pypi/pyversions/pypiggyback.svg)](https://pypi.org/project/pypiggyback/)
+
 ## What you get
 
 - **Card Designer** — Fabric.js-powered drag-and-drop editor with text, photos, stickers, and backgrounds
@@ -16,6 +19,8 @@
 - **Admin** — Django admin for templates, orders, deliveries, and more
 
 ## Quick install
+
+Install from [PyPI](https://pypi.org/project/pypiggyback/):
 
 ```bash
 pip install pypiggyback
@@ -43,8 +48,13 @@ python manage.py runserver
 
 Visit `http://localhost:8000` and start designing cards.
 
+!!! note "Package vs app name"
+    Install with `pip install pypiggyback`, then add `"piggyback"` to `INSTALLED_APPS`.
+
 ## Links
 
+- [PyPI Project](https://pypi.org/project/pypiggyback/)
+- [Quick Start](getting-started/quickstart.md)
 - [Installation Guide](getting-started/installation.md)
 - [API Reference](api/endpoints.md)
 - [Architecture](development/architecture.md)
